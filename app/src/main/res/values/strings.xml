@@ -4,4 +4,8 @@
     <string name="artists_title">Artistas</string>
     <string name="albums_title">Álbumes</string>
     <string name="back_button">Volver</string>
+    <string name="collectors_title">Coleccionistas</string>
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="as_text">como</string>
+    <string name="guess_title">Visitantes</string>
 </resources>
