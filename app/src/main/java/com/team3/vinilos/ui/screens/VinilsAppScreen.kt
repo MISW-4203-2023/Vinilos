@@ -19,12 +19,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.team3.vinilos.R
+import com.team3.vinilos.ui.viewmodels.AlbumsViewModel
 
 enum class VinilsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),
@@ -77,7 +79,7 @@ fun VinilsNavBar(navController: NavHostController, activeRouteName: String) {
             icon = {
                 Icon(
                     painterResource(id = R.drawable.album_24),
-                    contentDescription = "Album"
+                    contentDescription = stringResource(R.string.albums_title)
                 )
             },
             label = { Text(stringResource(R.string.albums_title)) },
@@ -88,7 +90,7 @@ fun VinilsNavBar(navController: NavHostController, activeRouteName: String) {
             icon = {
                 Icon(
                     painterResource(id = R.drawable.piano_24),
-                    contentDescription = "Album"
+                    contentDescription = stringResource(R.string.artists_title)
                 )
             },
             label = { Text(stringResource(R.string.artists_title)) },
@@ -99,7 +101,7 @@ fun VinilsNavBar(navController: NavHostController, activeRouteName: String) {
             icon = {
                 Icon(
                     painterResource(id = R.drawable.headphones_24),
-                    contentDescription = "Album"
+                    contentDescription = stringResource(R.string.artists_title)
                 )
             },
             label = { Text(stringResource(R.string.collectors_title)) },
@@ -131,7 +133,6 @@ fun VinilsApp(
             }
         }
     ) { innerPadding ->
-
         NavHost(
             navController = navController,
             startDestination = VinilsAppScreen.Start.name,
@@ -149,7 +150,12 @@ fun VinilsApp(
                 ArtistsScreen()
             }
             composable(route = VinilsAppScreen.Albums.name) {
-                AlbumsScreen()
+                val albumsViewModel: AlbumsViewModel =
+                    viewModel(factory = AlbumsViewModel.Factory)
+                AlbumsScreen(
+                    albumsViewModel.albumsUiState,
+                    retryAction = albumsViewModel::getAlbums
+                )
             }
             composable(route = VinilsAppScreen.Collectors.name) {
                 CollectorsScreen()
