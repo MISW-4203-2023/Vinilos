@@ -57,7 +57,7 @@ fun ArtistsList(artistList: List<Artist>, modifier: Modifier = Modifier) {
 @Composable
 fun ArtistCard(artist: Artist, modifier: Modifier = Modifier) {
     ListItem(
-        headlineContent = { Text(artist.name.toString()) },
+        headlineContent = { Text(artist.name) },
         trailingContent = {
             Icon(imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = "Ir a artista")
         },
@@ -70,7 +70,7 @@ fun ArtistCard(artist: Artist, modifier: Modifier = Modifier) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = artist.name.toString().first().uppercase(),
+                    text = artist.name.first().uppercase(),
                     color = md_theme_dark_primary,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
