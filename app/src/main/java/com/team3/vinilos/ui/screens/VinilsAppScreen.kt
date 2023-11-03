@@ -64,7 +64,7 @@ fun VinilsAppBar(
                 IconButton(onClick = logout) {
                     Icon(
                         painterResource(id = R.drawable.logout_24),
-                        contentDescription = "Salir de la aplicación"
+                        contentDescription = stringResource(R.string.exit_app)
                     )
                 }
             }

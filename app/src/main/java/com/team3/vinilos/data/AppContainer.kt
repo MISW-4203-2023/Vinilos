@@ -11,7 +11,7 @@ interface AppContainer {
 }
 
 class DefaultAppContainer : AppContainer {
-    private val baseUrl = "http://192.168.0.7:3000/"
+    private val baseUrl = "http://192.168.10.26:3000/"
 
     /**
      * Use the Retrofit builder to build a retrofit object using a kotlinx.serialization converter
