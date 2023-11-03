@@ -27,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.team3.vinilos.R
 import com.team3.vinilos.ui.viewmodels.AlbumsViewModel
+import com.team3.vinilos.ui.viewmodels.ArtistsViewModel
 
 enum class VinilsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),
@@ -147,7 +148,12 @@ fun VinilsApp(
                 )
             }
             composable(route = VinilsAppScreen.Artists.name) {
-                ArtistsScreen()
+                val artistsViewModel: ArtistsViewModel =
+                    viewModel(factory =  ArtistsViewModel.Factory)
+                ArtistsScreen(
+                    artistsViewModel.artistUiState,
+                    retryAction = artistsViewModel::getArtists
+                )
             }
             composable(route = VinilsAppScreen.Albums.name) {
                 val albumsViewModel: AlbumsViewModel =
