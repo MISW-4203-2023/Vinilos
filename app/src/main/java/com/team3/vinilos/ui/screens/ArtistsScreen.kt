@@ -70,7 +70,7 @@ fun ArtistCard(artist: Artist, modifier: Modifier = Modifier) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = artist.name.toString().uppercase(),
+                    text = artist.name.toString().first().uppercase(),
                     color = md_theme_dark_primary,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
