@@ -1,4 +1,4 @@
-package fake
+package com.team3.vinilos.fake
 
 import com.team3.vinilos.data.faker
 import com.team3.vinilos.data.models.Artist
