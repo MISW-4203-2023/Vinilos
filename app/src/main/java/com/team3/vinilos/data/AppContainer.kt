@@ -13,7 +13,7 @@ interface AppContainer {
 }
 
 class DefaultAppContainer : AppContainer {
-    private val baseUrl = "http://192.168.0.10:3000/"
+    private val baseUrl = "https://backend-vinyls-e1474335da3a.herokuapp.com/"
 
     private val jsonConverter = Json {
         ignoreUnknownKeys = true
