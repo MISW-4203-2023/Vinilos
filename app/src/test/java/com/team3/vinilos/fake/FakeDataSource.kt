@@ -10,6 +10,5 @@ object FakeDataSource {
         Artist (id = 3, name = faker.name.name()),
         Artist (id = 4, name = faker.name.name()),
         Artist (id = 5, name = faker.name.name())
-
     )
 }
