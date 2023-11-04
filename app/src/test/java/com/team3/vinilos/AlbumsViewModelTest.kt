@@ -5,7 +5,6 @@ import com.team3.vinilos.fake.FakeNetworkAlbumsRepository
 import com.team3.vinilos.rules.TestDispatcherRule
 import com.team3.vinilos.ui.viewmodels.AlbumsUiState
 import com.team3.vinilos.ui.viewmodels.AlbumsViewModel
-import com.team3.vinilos.ui.viewmodels.ArtistsUiState
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Rule
