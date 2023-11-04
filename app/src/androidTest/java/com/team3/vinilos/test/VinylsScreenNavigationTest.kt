@@ -6,13 +6,13 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
-import com.team3.vinilos.ui.screens.VinilsApp
-import com.team3.vinilos.ui.screens.VinilsAppScreen
+import com.team3.vinilos.ui.screens.VinylsApp
+import com.team3.vinilos.ui.screens.VinylsAppScreen
 import org.junit.Rule
 import org.junit.Before
 import org.junit.Test
 
-class VinilysScreenNavigationTest {
+class VinylsScreenNavigationTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -25,38 +25,38 @@ class VinilysScreenNavigationTest {
             navController = TestNavHostController(LocalContext.current).apply {
                 navigatorProvider.addNavigator(ComposeNavigator())
             }
-            VinilsApp(navController = navController)
+            VinylsApp(navController = navController)
         }
     }
 
     @Test
     fun vinylNavHost_verifyStartDestination() {
-        navController.assertCurrentRouteName(VinilsAppScreen.Start.name)
+        navController.assertCurrentRouteName(VinylsAppScreen.Start.name)
     }
 
     @Test
     fun vinylNavHost_clickButtonCollector_navigatesToAlbumsScreen() {
         composeTestRule.onNodeWithStringId(com.team3.vinilos.R.string.collectors_title)
             .performClick()
-        navController.assertCurrentRouteName(VinilsAppScreen.Albums.name)
+        navController.assertCurrentRouteName(VinylsAppScreen.Albums.name)
     }
 
     @Test
     fun vinylNavHost_clickNavButtonCollector_navigatesToCollectorScreen() {
         navigateToCollectorScreen()
-        navController.assertCurrentRouteName(VinilsAppScreen.Collectors.name)
+        navController.assertCurrentRouteName(VinylsAppScreen.Collectors.name)
     }
 
     @Test
     fun vinylNavHost_clickNavButtonArtists_navigatesToArtistScreen() {
         navigateToArtistScreen()
-        navController.assertCurrentRouteName(VinilsAppScreen.Artists.name)
+        navController.assertCurrentRouteName(VinylsAppScreen.Artists.name)
     }
 
     @Test
     fun vinylNavHost_clickNavButtonAlbums_navigatesToAlbumsScreen() {
         navigateToAlbumScreen()
-        navController.assertCurrentRouteName(VinilsAppScreen.Albums.name)
+        navController.assertCurrentRouteName(VinylsAppScreen.Albums.name)
     }
 
     @Test
@@ -65,7 +65,7 @@ class VinilysScreenNavigationTest {
             .performClick()
         composeTestRule.onNodeWithContentDescriptionId(com.team3.vinilos.R.string.exit_app)
             .performClick()
-        navController.assertCurrentRouteName(VinilsAppScreen.Start.name)
+        navController.assertCurrentRouteName(VinylsAppScreen.Start.name)
     }
 
     @Test
@@ -101,8 +101,6 @@ class VinilysScreenNavigationTest {
             .assertDoesNotExist()
     }
 
-
-    /* funciones de navegaciones.................... */
     private fun navigateToCollectorScreen(){
         composeTestRule.onNodeWithStringId(com.team3.vinilos.R.string.collectors_title)
             .performClick()

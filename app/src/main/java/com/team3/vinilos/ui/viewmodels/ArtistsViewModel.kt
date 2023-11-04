@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.team3.vinilos.VinilsApplication
+import com.team3.vinilos.VinylsApplication
 import com.team3.vinilos.data.ArtistsRepository
 import com.team3.vinilos.data.models.Artist
 import kotlinx.coroutines.launch
@@ -47,7 +47,7 @@ class ArtistsViewModel(private val artistsRepository: ArtistsRepository): ViewMo
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as VinilsApplication)
+                val application = (this[APPLICATION_KEY] as VinylsApplication)
                 val artistsRepository = application.container.artistsRepository
                 ArtistsViewModel(artistsRepository)
             }

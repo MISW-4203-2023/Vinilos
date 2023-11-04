@@ -13,15 +13,17 @@ interface AppContainer {
 }
 
 class DefaultAppContainer : AppContainer {
-    private val baseUrl = "http://192.168.1.3:3000/"
+    private val baseUrl = "http://192.168.0.10:3000/"
+
+    private val jsonConverter = Json {
+        ignoreUnknownKeys = true
+    }
 
     /**
      * Use the Retrofit builder to build a retrofit object using a kotlinx.serialization converter
      */
     private val retrofit: Retrofit = Retrofit.Builder()
-        .addConverterFactory(Json{
-            ignoreUnknownKeys = true
-        }.asConverterFactory("application/json".toMediaType()))
+        .addConverterFactory(jsonConverter.asConverterFactory("application/json".toMediaType()))
         .baseUrl(baseUrl)
         .build()
 

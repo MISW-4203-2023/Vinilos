@@ -10,18 +10,18 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
-class ArtisitsViewModelTest  {
+class ArtistsViewModelTest  {
     @get:Rule
     val testDispatcher = TestDispatcherRule()
     @Test
-    fun artistsViewModel_getArtists_verifyArtisitsUiStateSuccess() =
+    fun artistsViewModel_getArtists_verifyArtistsUiStateSuccess() =
         runTest {
-            val artisitsViewModel = ArtistsViewModel(
+            val artistsViewModel = ArtistsViewModel(
                 artistsRepository = FakeNetworkArtistsRepository()
             )
             assertEquals(
                 ArtistsUiState.Success(FakeDataSource.listArtist),
-                artisitsViewModel.artistUiState
+                artistsViewModel.artistUiState
             )
         }
 }
