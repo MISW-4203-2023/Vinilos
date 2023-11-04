@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.team3.vinilos.ui.theme.VinilsTheme
-import com.team3.vinilos.ui.screens.VinilsApp
+import com.team3.vinilos.ui.screens.VinylsApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    VinilsApp()
+                    VinylsApp()
                 }
             }
         }
@@ -31,8 +31,8 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun VinilsPreview() {
+fun VinylsPreview() {
     VinilsTheme {
-        VinilsApp()
+        VinylsApp()
     }
 }

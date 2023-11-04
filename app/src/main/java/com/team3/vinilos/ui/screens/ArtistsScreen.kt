@@ -19,24 +19,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.team3.vinilos.R
 import com.team3.vinilos.data.models.Artist
 import com.team3.vinilos.ui.theme.md_theme_dark_onPrimary
 import com.team3.vinilos.ui.theme.md_theme_dark_primary
 import com.team3.vinilos.ui.viewmodels.ArtistsUiState
 
 @Composable
-fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit){
+fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit) {
 
     when (state) {
-        is ArtistsUiState.Loading -> Text(text = "Cargando...")
+        is ArtistsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
         is ArtistsUiState.Success -> ArtistsList(artistList = state.artists)
         is ArtistsUiState.Error -> Column {
-            Text(text = "Ha ocurrido un error...")
+            Text(text = stringResource(R.string.error_title))
             Button(onClick = retryAction) {
-                Text(text = "Reintentar")
+                Text(text = stringResource(R.string.error_retry))
             }
         }
     }
@@ -45,7 +48,7 @@ fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit){
 
 @Composable
 fun ArtistsList(artistList: List<Artist>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = modifier.testTag("artist_list")) {
         items(artistList) { artist ->
             ArtistCard(artist = artist)
             Divider()
@@ -59,7 +62,11 @@ fun ArtistCard(artist: Artist, modifier: Modifier = Modifier) {
     ListItem(
         headlineContent = { Text(artist.name) },
         trailingContent = {
-            Icon(imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = "Ir a artista")
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = stringResource(
+                    R.string.go_to_artist
+                )
+            )
         },
         leadingContent = {
             Box(

@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +28,7 @@ import com.team3.vinilos.R
 import com.team3.vinilos.ui.viewmodels.AlbumsViewModel
 import com.team3.vinilos.ui.viewmodels.ArtistsViewModel
 
-enum class VinilsAppScreen(@StringRes val title: Int) {
+enum class VinylsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),
     Artists(title = R.string.artists_title),
     Albums(title = R.string.albums_title),
@@ -37,8 +36,8 @@ enum class VinilsAppScreen(@StringRes val title: Int) {
 }
 
 @Composable
-fun VinilsAppBar(
-    currentScreen: VinilsAppScreen,
+fun VinylsAppBar(
+    currentScreen: VinylsAppScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     logout: () -> Unit,
@@ -61,11 +60,11 @@ fun VinilsAppBar(
             }
         },
         actions = {
-            if (currentScreen.title != VinilsAppScreen.Start.title) {
+            if (currentScreen.title != VinylsAppScreen.Start.title) {
                 IconButton(onClick = logout) {
                     Icon(
                         painterResource(id = R.drawable.logout_24),
-                        contentDescription = "Salir de la aplicación"
+                        contentDescription = stringResource(R.string.exit_app)
                     )
                 }
             }
@@ -74,8 +73,8 @@ fun VinilsAppBar(
 }
 
 @Composable
-fun VinilsNavBar(navController: NavHostController, activeRouteName: String) {
-    NavigationBar() {
+fun VinylsNavBar(navController: NavHostController, activeRouteName: String) {
+    NavigationBar {
         NavigationBarItem(
             icon = {
                 Icon(
@@ -84,8 +83,8 @@ fun VinilsNavBar(navController: NavHostController, activeRouteName: String) {
                 )
             },
             label = { Text(stringResource(R.string.albums_title)) },
-            selected = activeRouteName == VinilsAppScreen.Albums.name,
-            onClick = { navController.navigate(VinilsAppScreen.Albums.name) }
+            selected = activeRouteName == VinylsAppScreen.Albums.name,
+            onClick = { navController.navigate(VinylsAppScreen.Albums.name) }
         )
         NavigationBarItem(
             icon = {
@@ -95,8 +94,8 @@ fun VinilsNavBar(navController: NavHostController, activeRouteName: String) {
                 )
             },
             label = { Text(stringResource(R.string.artists_title)) },
-            selected = activeRouteName == VinilsAppScreen.Artists.name,
-            onClick = { navController.navigate(VinilsAppScreen.Artists.name) }
+            selected = activeRouteName == VinylsAppScreen.Artists.name,
+            onClick = { navController.navigate(VinylsAppScreen.Artists.name) }
         )
         NavigationBarItem(
             icon = {
@@ -106,64 +105,62 @@ fun VinilsNavBar(navController: NavHostController, activeRouteName: String) {
                 )
             },
             label = { Text(stringResource(R.string.collectors_title)) },
-            selected = activeRouteName == VinilsAppScreen.Collectors.name,
-            onClick = { navController.navigate(VinilsAppScreen.Collectors.name) }
+            selected = activeRouteName == VinylsAppScreen.Collectors.name,
+            onClick = { navController.navigate(VinylsAppScreen.Collectors.name) }
         )
     }
 }
 
 @Composable
-fun VinilsApp(
+fun VinylsApp(
+    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    modifier: Modifier = Modifier
+    artistsViewModel: ArtistsViewModel = viewModel(factory = ArtistsViewModel.Factory),
+    albumsViewModel: AlbumsViewModel = viewModel(factory = AlbumsViewModel.Factory)
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val activeRouteName = backStackEntry?.destination?.route ?: VinilsAppScreen.Start.name
+    val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
     Scaffold(
         topBar = {
-            VinilsAppBar(
-                currentScreen = VinilsAppScreen.valueOf(activeRouteName),
+            VinylsAppBar(
+                currentScreen = VinylsAppScreen.valueOf(activeRouteName),
                 canNavigateBack = false,
                 navigateUp = { navController.navigateUp() },
-                logout = { navController.navigate(VinilsAppScreen.Start.name) }
+                logout = { navController.navigate(VinylsAppScreen.Start.name) }
             )
         },
         bottomBar = {
-            if (activeRouteName != VinilsAppScreen.Start.name) {
-                VinilsNavBar(navController, activeRouteName)
+            if (activeRouteName != VinylsAppScreen.Start.name) {
+                VinylsNavBar(navController, activeRouteName)
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = VinilsAppScreen.Start.name,
+            startDestination = VinylsAppScreen.Start.name,
             modifier = modifier.padding(innerPadding)
         )
         {
-            composable(route = VinilsAppScreen.Start.name) {
+            composable(route = VinylsAppScreen.Start.name) {
                 StartScreen(
-                    onCollectorEntry = { navController.navigate(VinilsAppScreen.Albums.name) },
-                    onGuessEntry = { navController.navigate(VinilsAppScreen.Albums.name) },
+                    onCollectorEntry = { navController.navigate(VinylsAppScreen.Albums.name) },
+                    onGuessEntry = { navController.navigate(VinylsAppScreen.Albums.name) },
                     modifier = modifier
                 )
             }
-            composable(route = VinilsAppScreen.Artists.name) {
-                val artistsViewModel: ArtistsViewModel =
-                    viewModel(factory =  ArtistsViewModel.Factory)
+            composable(route = VinylsAppScreen.Artists.name) {
                 ArtistsScreen(
                     artistsViewModel.artistUiState,
                     retryAction = artistsViewModel::getArtists
                 )
             }
-            composable(route = VinilsAppScreen.Albums.name) {
-                val albumsViewModel: AlbumsViewModel =
-                    viewModel(factory = AlbumsViewModel.Factory)
+            composable(route = VinylsAppScreen.Albums.name) {
                 AlbumsScreen(
                     albumsViewModel.albumsUiState,
                     retryAction = albumsViewModel::getAlbums
                 )
             }
-            composable(route = VinilsAppScreen.Collectors.name) {
+            composable(route = VinylsAppScreen.Collectors.name) {
                 CollectorsScreen()
             }
         }

@@ -1,7 +1,6 @@
 package com.team3.vinilos.data
 
 import com.team3.vinilos.data.models.Artist
-import com.team3.vinilos.network.AlbumsApiService
 import com.team3.vinilos.network.ArtistsApiService
 
 interface ArtistsRepository {
