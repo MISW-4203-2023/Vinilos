@@ -10,10 +10,11 @@ import org.junit.Assert.assertEquals
 
 class NetworkArtistsRepositoryTest {
     @Test
-    suspend fun networkArtistsRepository_getArtists_verifyArtistList() = runTest{
-        val repository = NetworkArtistsRepository(
-            artistsApiService = FakeArtistApiService()
-        )
+    fun  networkArtistsRepository_getArtists_verifyArtistList() =
+        runTest{
+            val repository = NetworkArtistsRepository(
+                artistsApiService = FakeArtistApiService()
+            )
         assertEquals(FakeDataSource.listArtist, repository.getArtists())
     }
 }
