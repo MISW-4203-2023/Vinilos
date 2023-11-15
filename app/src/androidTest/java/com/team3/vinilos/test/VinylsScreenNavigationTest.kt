@@ -6,8 +6,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
-import com.team3.vinilos.ui.screens.VinylsApp
-import com.team3.vinilos.ui.screens.VinylsAppScreen
+import com.team3.vinilos.view.screens.VinylsApp
+import com.team3.vinilos.view.screens.VinylsAppScreen
 import org.junit.Rule
 import org.junit.Before
 import org.junit.Test

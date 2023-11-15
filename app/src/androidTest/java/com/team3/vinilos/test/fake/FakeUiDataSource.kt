@@ -1,7 +1,7 @@
 package com.team3.vinilos.test.fake
 
-import com.team3.vinilos.data.models.Album
-import com.team3.vinilos.data.models.Artist
+import com.team3.vinilos.model.models.Album
+import com.team3.vinilos.model.models.Artist
 import io.github.serpro69.kfaker.Faker
 import kotlin.random.Random
 

@@ -1,4 +1,4 @@
-package com.team3.vinilos.ui.screens
+package com.team3.vinilos.view.screens
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
@@ -25,8 +25,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.team3.vinilos.R
-import com.team3.vinilos.ui.viewmodels.AlbumsViewModel
-import com.team3.vinilos.ui.viewmodels.ArtistsViewModel
+import com.team3.vinilos.viewModel.AlbumsViewModel
+import com.team3.vinilos.viewModel.ArtistsViewModel
 
 enum class VinylsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),

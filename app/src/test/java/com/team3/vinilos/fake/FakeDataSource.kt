@@ -1,8 +1,8 @@
 package com.team3.vinilos.fake
 
-import com.team3.vinilos.data.faker
-import com.team3.vinilos.data.models.Album
-import com.team3.vinilos.data.models.Artist
+import com.team3.vinilos.model.faker
+import com.team3.vinilos.model.models.Album
+import com.team3.vinilos.model.models.Artist
 
 object FakeDataSource {
     val listArtist = listOf (

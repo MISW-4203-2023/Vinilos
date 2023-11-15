@@ -1,4 +1,4 @@
-package com.team3.vinilos.ui.viewmodels
+package com.team3.vinilos.viewModel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,8 +10,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.team3.vinilos.VinylsApplication
-import com.team3.vinilos.data.ArtistsRepository
-import com.team3.vinilos.data.models.Artist
+import com.team3.vinilos.model.repository.ArtistsRepository
+import com.team3.vinilos.model.models.Artist
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException

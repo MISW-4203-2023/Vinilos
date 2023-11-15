@@ -1,4 +1,4 @@
-package com.team3.vinilos.ui.theme
+package com.team3.vinilos.view.theme
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF6750A4)

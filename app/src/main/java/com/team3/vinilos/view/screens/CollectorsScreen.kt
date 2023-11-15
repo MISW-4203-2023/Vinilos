@@ -1,4 +1,4 @@
-package com.team3.vinilos.ui.screens
+package com.team3.vinilos.view.screens
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package com.team3.vinilos.ui.theme
+package com.team3.vinilos.view.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

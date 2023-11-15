@@ -1,7 +1,7 @@
 package com.team3.vinilos.fake
 
-import com.team3.vinilos.data.models.Album
-import com.team3.vinilos.network.AlbumsApiService
+import com.team3.vinilos.model.models.Album
+import com.team3.vinilos.model.network.AlbumsApiService
 
 class FakeAlbumApiService: AlbumsApiService {
     override suspend fun getAlbums(): List<Album> {

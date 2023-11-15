@@ -1,10 +1,12 @@
-package com.team3.vinilos.data
+package com.team3.vinilos.model.network
 
 import kotlinx.serialization.json.Json
 import retrofit2.Retrofit
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.team3.vinilos.network.AlbumsApiService
-import com.team3.vinilos.network.ArtistsApiService
+import com.team3.vinilos.model.repository.AlbumsRepository
+import com.team3.vinilos.model.repository.ArtistsRepository
+import com.team3.vinilos.model.repository.NetworkAlbumsRepository
+import com.team3.vinilos.model.repository.NetworkArtistsRepository
 import okhttp3.MediaType.Companion.toMediaType
 
 interface AppContainer {

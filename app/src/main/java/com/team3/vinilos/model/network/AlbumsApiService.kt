@@ -1,6 +1,6 @@
-package com.team3.vinilos.network
+package com.team3.vinilos.model.network
 
-import com.team3.vinilos.data.models.Album
+import com.team3.vinilos.model.models.Album
 import retrofit2.http.GET
 
 interface AlbumsApiService {

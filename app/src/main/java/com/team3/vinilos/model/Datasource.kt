@@ -1,6 +1,6 @@
-package com.team3.vinilos.data
+package com.team3.vinilos.model
 
-import com.team3.vinilos.data.models.Album
+import com.team3.vinilos.model.models.Album
 import io.github.serpro69.kfaker.Faker
 
 val faker = Faker()

@@ -11,11 +11,11 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.team3.vinilos.test.fake.FakeNetworkAlbumsRepository
 import com.team3.vinilos.test.fake.FakeNetworkArtistRepository
-import com.team3.vinilos.ui.screens.VinylsApp
-import com.team3.vinilos.ui.screens.VinylsAppScreen
-import com.team3.vinilos.ui.viewmodels.AlbumsUiState
-import com.team3.vinilos.ui.viewmodels.AlbumsViewModel
-import com.team3.vinilos.ui.viewmodels.ArtistsViewModel
+import com.team3.vinilos.view.screens.VinylsApp
+import com.team3.vinilos.view.screens.VinylsAppScreen
+import com.team3.vinilos.viewModel.AlbumsUiState
+import com.team3.vinilos.viewModel.AlbumsViewModel
+import com.team3.vinilos.viewModel.ArtistsViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

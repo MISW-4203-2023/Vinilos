@@ -1,4 +1,4 @@
-package com.team3.vinilos.ui.screens
+package com.team3.vinilos.view.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,23 +22,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.team3.vinilos.R
-import com.team3.vinilos.data.Datasource
-import com.team3.vinilos.data.models.Album
-import com.team3.vinilos.ui.theme.md_theme_dark_onPrimary
-import com.team3.vinilos.ui.theme.md_theme_dark_primary
-import com.team3.vinilos.ui.viewmodels.AlbumsUiState
+import com.team3.vinilos.model.models.Artist
+import com.team3.vinilos.view.theme.md_theme_dark_onPrimary
+import com.team3.vinilos.view.theme.md_theme_dark_primary
+import com.team3.vinilos.viewModel.ArtistsUiState
 
 @Composable
-fun AlbumsScreen(state: AlbumsUiState, retryAction: () -> Unit) {
+fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit) {
 
     when (state) {
-        is AlbumsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is AlbumsUiState.Success -> AlbumsList(albumList = state.albums)
-        is AlbumsUiState.Error -> Column {
+        is ArtistsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
+        is ArtistsUiState.Success -> ArtistsList(artistList = state.artists)
+        is ArtistsUiState.Error -> Column {
             Text(text = stringResource(R.string.error_title))
             Button(onClick = retryAction) {
                 Text(text = stringResource(R.string.error_retry))
@@ -49,10 +47,10 @@ fun AlbumsScreen(state: AlbumsUiState, retryAction: () -> Unit) {
 }
 
 @Composable
-fun AlbumsList(albumList: List<Album>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier.testTag("albums_list")) {
-        items(albumList) { album ->
-            AlbumCard(album = album)
+fun ArtistsList(artistList: List<Artist>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier.testTag("artist_list")) {
+        items(artistList) { artist ->
+            ArtistCard(artist = artist)
             Divider()
         }
     }
@@ -60,14 +58,13 @@ fun AlbumsList(albumList: List<Album>, modifier: Modifier = Modifier) {
 
 
 @Composable
-fun AlbumCard(album: Album, modifier: Modifier = Modifier) {
+fun ArtistCard(artist: Artist, modifier: Modifier = Modifier) {
     ListItem(
-        headlineContent = { Text(album.name) },
-        supportingContent = { Text(album.genre ?: "") },
+        headlineContent = { Text(artist.name) },
         trailingContent = {
             Icon(
                 imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = stringResource(
-                    R.string.go_to_album
+                    R.string.go_to_artist
                 )
             )
         },
@@ -80,7 +77,7 @@ fun AlbumCard(album: Album, modifier: Modifier = Modifier) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = album.name.first().toString().uppercase(),
+                    text = artist.name.first().uppercase(),
                     color = md_theme_dark_primary,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
@@ -89,11 +86,4 @@ fun AlbumCard(album: Album, modifier: Modifier = Modifier) {
         },
         modifier = modifier.padding(4.dp, 8.dp)
     )
-}
-
-
-@Preview
-@Composable
-private fun AlbumsPreview() {
-    AlbumsList(Datasource().loadAlbums())
 }

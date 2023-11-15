@@ -1,6 +1,6 @@
 package com.team3.vinilos
 
-import com.team3.vinilos.data.NetworkArtistsRepository
+import com.team3.vinilos.model.repository.NetworkArtistsRepository
 import com.team3.vinilos.fake.FakeArtistApiService
 import com.team3.vinilos.fake.FakeDataSource
 import kotlinx.coroutines.test.runTest

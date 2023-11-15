@@ -3,8 +3,8 @@ package com.team3.vinilos
 import com.team3.vinilos.fake.FakeDataSource
 import com.team3.vinilos.fake.FakeNetworkAlbumsRepository
 import com.team3.vinilos.rules.TestDispatcherRule
-import com.team3.vinilos.ui.viewmodels.AlbumsUiState
-import com.team3.vinilos.ui.viewmodels.AlbumsViewModel
+import com.team3.vinilos.viewModel.AlbumsUiState
+import com.team3.vinilos.viewModel.AlbumsViewModel
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Rule

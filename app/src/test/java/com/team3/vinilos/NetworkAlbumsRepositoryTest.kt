@@ -1,6 +1,6 @@
 package com.team3.vinilos
 
-import com.team3.vinilos.data.NetworkAlbumsRepository
+import com.team3.vinilos.model.repository.NetworkAlbumsRepository
 import com.team3.vinilos.fake.FakeAlbumApiService
 import com.team3.vinilos.fake.FakeDataSource
 import kotlinx.coroutines.test.runTest

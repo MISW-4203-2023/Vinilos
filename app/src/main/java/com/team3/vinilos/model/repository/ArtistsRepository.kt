@@ -1,7 +1,7 @@
-package com.team3.vinilos.data
+package com.team3.vinilos.model.repository
 
-import com.team3.vinilos.data.models.Artist
-import com.team3.vinilos.network.ArtistsApiService
+import com.team3.vinilos.model.models.Artist
+import com.team3.vinilos.model.network.ArtistsApiService
 
 interface ArtistsRepository {
     suspend fun getArtists(): List<Artist>

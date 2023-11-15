@@ -1,4 +1,4 @@
-package com.team3.vinilos.data.models
+package com.team3.vinilos.model.models
 
 import kotlinx.serialization.Serializable
 
