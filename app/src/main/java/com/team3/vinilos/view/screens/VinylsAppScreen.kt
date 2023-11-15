@@ -14,16 +14,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.team3.vinilos.R
 import com.team3.vinilos.viewModel.AlbumsViewModel
 import com.team3.vinilos.viewModel.ArtistViewModel
@@ -38,14 +42,14 @@ enum class VinylsAppScreen(@StringRes val title: Int) {
 
 @Composable
 fun VinylsAppBar(
-    currentScreen: VinylsAppScreen,
+    title: Int?,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     logout: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        title = { Text(stringResource(currentScreen.title)) },
+        title = { title?.let { Text(stringResource(it)) } },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
@@ -61,7 +65,7 @@ fun VinylsAppBar(
             }
         },
         actions = {
-            if (currentScreen.title != VinylsAppScreen.Start.title) {
+            if (title != VinylsAppScreen.Start.title) {
                 IconButton(onClick = logout) {
                     Icon(
                         painterResource(id = R.drawable.logout_24),
@@ -74,7 +78,10 @@ fun VinylsAppBar(
 }
 
 @Composable
-fun VinylsNavBar(navController: NavHostController, activeRouteName: String) {
+fun VinylsNavBar(
+    navigate: (id: String) -> Unit,
+    activeRouteName: String
+) {
     NavigationBar {
         NavigationBarItem(
             icon = {
@@ -84,8 +91,8 @@ fun VinylsNavBar(navController: NavHostController, activeRouteName: String) {
                 )
             },
             label = { Text(stringResource(R.string.albums_title)) },
-            selected = activeRouteName == VinylsAppScreen.Albums.name,
-            onClick = { navController.navigate(VinylsAppScreen.Albums.name) }
+            selected = activeRouteName.startsWith(VinylsAppScreen.Albums.name),
+            onClick = { navigate(VinylsAppScreen.Albums.name) }
         )
         NavigationBarItem(
             icon = {
@@ -95,8 +102,8 @@ fun VinylsNavBar(navController: NavHostController, activeRouteName: String) {
                 )
             },
             label = { Text(stringResource(R.string.artists_title)) },
-            selected = activeRouteName == VinylsAppScreen.Artists.name,
-            onClick = { navController.navigate(VinylsAppScreen.Artists.name) }
+            selected = activeRouteName.startsWith(VinylsAppScreen.Artists.name),
+            onClick = { navigate(VinylsAppScreen.Artists.name) }
         )
         NavigationBarItem(
             icon = {
@@ -106,8 +113,8 @@ fun VinylsNavBar(navController: NavHostController, activeRouteName: String) {
                 )
             },
             label = { Text(stringResource(R.string.collectors_title)) },
-            selected = activeRouteName == VinylsAppScreen.Collectors.name,
-            onClick = { navController.navigate(VinylsAppScreen.Collectors.name) }
+            selected = activeRouteName.startsWith(VinylsAppScreen.Collectors.name),
+            onClick = { navigate(VinylsAppScreen.Collectors.name) }
         )
     }
 }
@@ -122,18 +129,32 @@ fun VinylsApp(
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
+    var screenTitle: Int? = null
+    try {
+        val selectedScreen = VinylsAppScreen.valueOf(activeRouteName)
+        screenTitle = selectedScreen.title
+    } catch (_: IllegalArgumentException) {
+    }
     Scaffold(
         topBar = {
             VinylsAppBar(
-                currentScreen = VinylsAppScreen.Artists, //VinylsAppScreen.valueOf(activeRouteName),
-                canNavigateBack = false,
+                title = screenTitle,
+                canNavigateBack = screenTitle == null,
                 navigateUp = { navController.navigateUp() },
                 logout = { navController.navigate(VinylsAppScreen.Start.name) }
             )
         },
         bottomBar = {
             if (activeRouteName != VinylsAppScreen.Start.name) {
-                VinylsNavBar(navController, activeRouteName)
+                VinylsNavBar(navigate = {
+                    navController.navigate(it)
+                    {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                    }
+                }, activeRouteName)
             }
         }
     ) { innerPadding ->
@@ -143,37 +164,39 @@ fun VinylsApp(
             modifier = modifier.padding(innerPadding)
         )
         {
+            composable(route = VinylsAppScreen.Artists.name) {
+                ArtistsScreen(
+                    artistsViewModel.artistUiState,
+                    retryAction = artistsViewModel::getArtists,
+                    goToDetail = { navController.navigate("${VinylsAppScreen.Artists.name}/$it") }
+                )
+            }
+            composable(
+                route = "${VinylsAppScreen.Artists.name}/{artistId}",
+                arguments = listOf(navArgument("artistId") { type = NavType.LongType })
+            ) {
+                val artistId = it.arguments?.getLong("artistId")
+                artistId?.let {
+                    LaunchedEffect(artistId) {
+                        artistViewModel.getArtist(it)
+                    }
+                    ArtistScreen(
+                        artistViewModel.artistUiState,
+                        retryAction = {
+                            artistViewModel.getArtist(
+                                id = it
+                            )
+                        }
+                    )
+                }
+
+            }
             composable(route = VinylsAppScreen.Start.name) {
                 StartScreen(
                     onCollectorEntry = { navController.navigate(VinylsAppScreen.Albums.name) },
                     onGuessEntry = { navController.navigate(VinylsAppScreen.Albums.name) },
                     modifier = modifier
                 )
-            }
-            composable(route = VinylsAppScreen.Artists.name) {
-                ArtistsScreen(
-                    artistsViewModel.artistUiState,
-                    retryAction = artistsViewModel::getArtists,
-                    goToDetail = { navController.navigate("artistDetails/$it") }
-                )
-            }
-            composable(route = "artistDetails/{artistId}") {
-                val artistId = it.arguments?.getString("artistId")
-                /* We check if is null */
-                artistId?.let {
-                    artistViewModel.getArtist(artistId.toLong())
-                    ArtistScreen(
-                        artistViewModel.artistUiState,
-
-                        retryAction = {
-                            artistViewModel.getArtist(
-                                id = artistId.toLong()
-                            )
-                        },
-                        id = artistId.toLong()
-                    )
-                }
-
             }
             composable(route = VinylsAppScreen.Albums.name) {
                 AlbumsScreen(
@@ -187,4 +210,5 @@ fun VinylsApp(
         }
     }
 }
+
 

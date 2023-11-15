@@ -11,7 +11,7 @@ import com.team3.vinilos.model.models.Artist
 import com.team3.vinilos.viewModel.ArtistUiState
 
 @Composable
-fun ArtistScreen(state: ArtistUiState, retryAction: () -> Unit, id: Long) {
+fun ArtistScreen(state: ArtistUiState, retryAction: () -> Unit) {
 
     when (state) {
         is ArtistUiState.Loading -> Text(text = stringResource(R.string.loading_title))
