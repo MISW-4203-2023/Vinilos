@@ -26,6 +26,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.team3.vinilos.R
 import com.team3.vinilos.viewModel.AlbumsViewModel
+import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsViewModel
 
 enum class VinylsAppScreen(@StringRes val title: Int) {
@@ -116,14 +117,15 @@ fun VinylsApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     artistsViewModel: ArtistsViewModel = viewModel(factory = ArtistsViewModel.Factory),
-    albumsViewModel: AlbumsViewModel = viewModel(factory = AlbumsViewModel.Factory)
+    albumsViewModel: AlbumsViewModel = viewModel(factory = AlbumsViewModel.Factory),
+    artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.Factory),
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
     Scaffold(
         topBar = {
             VinylsAppBar(
-                currentScreen = VinylsAppScreen.valueOf(activeRouteName),
+                currentScreen = VinylsAppScreen.Artists, //VinylsAppScreen.valueOf(activeRouteName),
                 canNavigateBack = false,
                 navigateUp = { navController.navigateUp() },
                 logout = { navController.navigate(VinylsAppScreen.Start.name) }
@@ -151,8 +153,27 @@ fun VinylsApp(
             composable(route = VinylsAppScreen.Artists.name) {
                 ArtistsScreen(
                     artistsViewModel.artistUiState,
-                    retryAction = artistsViewModel::getArtists
+                    retryAction = artistsViewModel::getArtists,
+                    goToDetail = { navController.navigate("artistDetails/$it") }
                 )
+            }
+            composable(route = "artistDetails/{artistId}") {
+                val artistId = it.arguments?.getString("artistId")
+                /* We check if is null */
+                artistId?.let {
+                    artistViewModel.getArtist(artistId.toLong())
+                    ArtistScreen(
+                        artistViewModel.artistUiState,
+
+                        retryAction = {
+                            artistViewModel.getArtist(
+                                id = artistId.toLong()
+                            )
+                        },
+                        id = artistId.toLong()
+                    )
+                }
+
             }
             composable(route = VinylsAppScreen.Albums.name) {
                 AlbumsScreen(
