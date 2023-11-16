@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.team3.vinilos.R
 import com.team3.vinilos.viewModel.AlbumsViewModel
 import com.team3.vinilos.viewModel.ArtistsViewModel
+import com.team3.vinilos.viewModel.CollectorsViewModel
 
 enum class VinylsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),
@@ -116,8 +117,10 @@ fun VinylsApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     artistsViewModel: ArtistsViewModel = viewModel(factory = ArtistsViewModel.Factory),
-    albumsViewModel: AlbumsViewModel = viewModel(factory = AlbumsViewModel.Factory)
-) {
+    albumsViewModel: AlbumsViewModel = viewModel(factory = AlbumsViewModel.Factory),
+    collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory)
+
+    ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
     Scaffold(
@@ -161,7 +164,10 @@ fun VinylsApp(
                 )
             }
             composable(route = VinylsAppScreen.Collectors.name) {
-                CollectorsScreen()
+                CollectorsScreen(
+                    collectorsViewModel.collectorsUiState,
+                    retryAction = collectorsViewModel::getCollectors
+                )
             }
         }
     }
