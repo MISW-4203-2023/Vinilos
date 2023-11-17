@@ -57,11 +57,11 @@ class DefaultAppContainer : AppContainer {
     }
 
     //Collectors
-    private val retrofitCollectorService: CollectorsApiService by lazy{
+    private val collectorsRetrofitService: CollectorsApiService by lazy{
         retrofit.create(CollectorsApiService::class.java)
     }
 
     override val collectorsRepository: CollectorsRepository by lazy {
-        NetworkCollectorsRepository(retrofitCollectorService)
+        NetworkCollectorsRepository(collectorsRetrofitService)
     }
 }

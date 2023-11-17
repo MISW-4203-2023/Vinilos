@@ -18,16 +18,12 @@ class Datasource {
             Album(id = 1, name = faker.name.name()),
         )
     }
-    fun loadCollectors() : List<Collector> {
-        return listOf(
-            Collector(id = 1, name = faker.name.name()),
-            Collector(id = 1, name = faker.name.name()),
-            Collector(id = 1, name = faker.name.name()),
-            Collector(id = 1, name = faker.name.name()),
-            Collector(id = 1, name = faker.name.name()),
-            Collector(id = 1, name = faker.name.name()),
-            Collector(id = 1, name = faker.name.name()),
-            Collector(id = 1, name = faker.name.name()),
-        )
+    fun loadCollectors(count: Int) : List<Collector> {
+        val collectors = mutableListOf<Collector>()
+        for (i in 1 .. count) {
+            val collector = Collector(id = i.toLong(), name = faker.name.name())
+            collectors.add(collector)
+        }
+        return collectors
     }
 }

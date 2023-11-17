@@ -102,7 +102,7 @@ fun VinylsNavBar(navController: NavHostController, activeRouteName: String) {
             icon = {
                 Icon(
                     painterResource(id = R.drawable.headphones_24),
-                    contentDescription = stringResource(R.string.artists_title)
+                    contentDescription = stringResource(R.string.collectors_title)
                 )
             },
             label = { Text(stringResource(R.string.collectors_title)) },

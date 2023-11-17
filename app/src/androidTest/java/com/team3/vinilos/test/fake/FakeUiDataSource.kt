@@ -2,6 +2,7 @@ package com.team3.vinilos.test.fake
 
 import com.team3.vinilos.model.models.Album
 import com.team3.vinilos.model.models.Artist
+import com.team3.vinilos.model.models.Collector
 import io.github.serpro69.kfaker.Faker
 import kotlin.random.Random
 
@@ -39,6 +40,16 @@ class FakeUiDataSource {
                 artists.add(artist)
             }
             return artists
+        }
+
+        fun getCollector(count: Int): List<Collector> {
+            val faker = Faker()
+            val collectors = mutableListOf<Collector>()
+            for (i in 1..count) {
+                val collector = Collector(id = i.toLong(), name = faker.name.name())
+                collectors.add(collector)
+            }
+            return collectors
         }
     }
 }

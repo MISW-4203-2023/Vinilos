@@ -94,5 +94,5 @@ fun CollectorCard(collector: Collector, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun CollectorsPreview() {
-    CollectorsList(Datasource().loadCollectors())
+    CollectorsList(Datasource().loadCollectors(10))
 }
