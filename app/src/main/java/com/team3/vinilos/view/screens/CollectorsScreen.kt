@@ -50,7 +50,7 @@ fun CollectorsScreen(state: CollectorsUiState, retryAction: () -> Unit) {
 
 @Composable
 fun CollectorsList(collectorList: List<Collector>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier.testTag("collectors_list")) {
+    LazyColumn(modifier = modifier.testTag("collector_list")) {
         items(collectorList) { collector ->
             CollectorCard(collector = collector)
             Divider()

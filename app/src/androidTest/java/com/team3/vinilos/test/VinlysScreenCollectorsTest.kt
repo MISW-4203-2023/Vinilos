@@ -10,10 +10,12 @@ import androidx.compose.ui.test.performScrollToIndex
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.team3.vinilos.test.fake.FakeNetworkAlbumsRepository
+import com.team3.vinilos.test.fake.FakeNetworkArtistRepository
 import com.team3.vinilos.test.fake.FakeNetworkCollectorRepository
 import com.team3.vinilos.view.screens.VinylsApp
 import com.team3.vinilos.view.screens.VinylsAppScreen
 import com.team3.vinilos.viewModel.AlbumsViewModel
+import com.team3.vinilos.viewModel.ArtistsViewModel
 import com.team3.vinilos.viewModel.CollectorsUiState
 import com.team3.vinilos.viewModel.CollectorsViewModel
 import org.junit.Before
@@ -27,6 +29,7 @@ class VinlysScreenCollectorsTest {
 
     private lateinit var navController: TestNavHostController
     private lateinit var albumsViewModel: AlbumsViewModel
+    private lateinit var artistsViewModel: ArtistsViewModel
     private lateinit var collectorsViewModel: CollectorsViewModel
 
     @Before
@@ -38,12 +41,16 @@ class VinlysScreenCollectorsTest {
             albumsViewModel = AlbumsViewModel(
                 albumsRepository = FakeNetworkAlbumsRepository()
             )
+            artistsViewModel = ArtistsViewModel(
+                artistsRepository = FakeNetworkArtistRepository()
+            )
             collectorsViewModel = CollectorsViewModel(
                 collectorsRepository = FakeNetworkCollectorRepository()
             )
             VinylsApp(
                 navController = navController,
                 albumsViewModel = albumsViewModel,
+                artistsViewModel = artistsViewModel,
                 collectorsViewModel = collectorsViewModel
             )
         }
@@ -76,6 +83,8 @@ class VinlysScreenCollectorsTest {
     }
 
     private fun navigateToCollectorScreen() {
+        composeTestRule.onNodeWithStringId(com.team3.vinilos.R.string.collectors_title)
+            .performClick()
         composeTestRule.onNodeWithStringId(com.team3.vinilos.R.string.collectors_title)
             .performClick()
     }
