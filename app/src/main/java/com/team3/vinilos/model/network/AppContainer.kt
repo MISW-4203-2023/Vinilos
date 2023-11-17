@@ -4,14 +4,17 @@ import kotlinx.serialization.json.Json
 import retrofit2.Retrofit
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.team3.vinilos.model.repository.AlbumsRepository
+import com.team3.vinilos.model.repository.ArtistRepository
 import com.team3.vinilos.model.repository.ArtistsRepository
 import com.team3.vinilos.model.repository.NetworkAlbumsRepository
+import com.team3.vinilos.model.repository.NetworkArtistRepository
 import com.team3.vinilos.model.repository.NetworkArtistsRepository
 import okhttp3.MediaType.Companion.toMediaType
 
 interface AppContainer {
     val albumsRepository: AlbumsRepository
     val artistsRepository: ArtistsRepository
+    val artistRepository: ArtistRepository
 }
 
 class DefaultAppContainer : AppContainer {
@@ -21,35 +24,36 @@ class DefaultAppContainer : AppContainer {
         ignoreUnknownKeys = true
     }
 
-    /**
-     * Use the Retrofit builder to build a retrofit object using a kotlinx.serialization converter
-     */
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(jsonConverter.asConverterFactory("application/json".toMediaType()))
         .baseUrl(baseUrl)
         .build()
 
-    /**
-     * Retrofit service object for creating api calls
-     */
-    private val retrofitService: AlbumsApiService by lazy {
+    //Album
+    private val albumRetrofitService: AlbumsApiService by lazy {
         retrofit.create(AlbumsApiService::class.java)
     }
 
-
-    /**
-     * DI implementation for Mars photos repository
-     */
     override val albumsRepository: AlbumsRepository by lazy {
-        NetworkAlbumsRepository(retrofitService)
+        NetworkAlbumsRepository(albumRetrofitService)
     }
 
     //Artist
-    private val retrofitArtistService: ArtistsApiService by lazy{
+    private val artistsRetrofitService: ArtistsApiService by lazy{
         retrofit.create(ArtistsApiService::class.java)
     }
 
     override val artistsRepository: ArtistsRepository by lazy {
-        NetworkArtistsRepository(retrofitArtistService)
+        NetworkArtistsRepository(artistsRetrofitService)
     }
+
+    //Artist
+    private val artistRetrofitService: ArtistApiService by lazy{
+        retrofit.create(ArtistApiService::class.java)
+    }
+
+    override val artistRepository: ArtistRepository by lazy {
+        NetworkArtistRepository(artistRetrofitService)
+    }
+
 }
