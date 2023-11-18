@@ -38,7 +38,7 @@ fun AlbumsScreen(state: AlbumsUiState, retryAction: () -> Unit, goToDetail: (id:
 
     when (state) {
         is AlbumsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is AlbumsUiState.Success -> AlbumsList(albumList = state.albums)
+        is AlbumsUiState.Success -> AlbumsList(albumList = state.albums, goToDetail = goToDetail)
         is AlbumsUiState.Error -> ErrorScreen(retryAction)
     }
 

@@ -14,5 +14,6 @@
     <string name="error_retry">Reintentar</string>
     <string name="go_to_artist">Ir a artista</string>
     <string name="go_to_album">Ir al álbum</string>
-    <string name="imagen_del_album">Imagen del album</string>
+    <string name="imagen_del_album">Imagen del álbum</string>
+    <string name="go_to_collector">Ir a los coleccionistas</string>
 </resources>
