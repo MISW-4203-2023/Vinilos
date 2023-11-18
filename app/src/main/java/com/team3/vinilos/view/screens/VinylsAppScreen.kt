@@ -111,17 +111,6 @@ fun VinylsNavBar(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.headphones_24),
-                    contentDescription = stringResource(R.string.artists_title)
-                )
-            },
-            label = { Text(stringResource(R.string.collectors_title)) },
-            selected = activeRouteName.startsWith(VinylsAppScreen.Collectors.name),
-            onClick = { navigate(VinylsAppScreen.Collectors.name) }
-        )
-        NavigationBarItem(
-            icon = {
-                Icon(
-                    painterResource(id = R.drawable.headphones_24),
                     contentDescription = stringResource(R.string.collectors_title)
                 )
             },
@@ -222,7 +211,8 @@ fun VinylsApp(
                 CollectorsScreen(
                     collectorsViewModel.collectorsUiState,
                     retryAction = collectorsViewModel::getCollectors
-                )            }
+                )
+            }
         }
     }
 }
