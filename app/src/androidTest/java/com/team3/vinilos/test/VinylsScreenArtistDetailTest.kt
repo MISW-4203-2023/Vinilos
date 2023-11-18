@@ -65,14 +65,14 @@ class VinylsScreenArtistDetailTest {
     }
 
     @Test
-    fun artistDetailScreen_scrollOverAllList_findAllArtists() {
+    fun artistDetailScreen_clickOn30Details_validateTitle() {
         navigateToArtistScreen()
         navController.assertCurrentRouteName(VinylsAppScreen.Artists.name)
         when (artistsViewModel.artistUiState) {
             is ArtistsUiState.Success -> {
                 val artists = (artistsViewModel.artistUiState as ArtistsUiState.Success).artists
 
-                for (i in 0 until 30) {
+                for (j in 0 until 30) {
                     val i = Random.nextInt(1, 90)
                     val artistName = artists[i].name
 

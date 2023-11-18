@@ -59,7 +59,7 @@ class VinylsScreenAlbumDetailTest {
     }
 
     @Test
-    fun albumsScreen_scrollOverAllList_findAllAlbums() {
+    fun albumDetailScreen_clickOn30Details_validateTitle() {
         navigateToAlbumScreen()
         navController.assertCurrentRouteName(VinylsAppScreen.Albums.name)
         when (albumsViewModel.albumsUiState) {
