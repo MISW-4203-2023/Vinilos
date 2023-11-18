@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,6 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.team3.vinilos.R
+import com.team3.vinilos.viewModel.AlbumViewModel
 import com.team3.vinilos.viewModel.AlbumsViewModel
 import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsViewModel
@@ -57,7 +59,7 @@ fun VinylsAppBar(
         modifier = modifier,
         navigationIcon = {
             if (canNavigateBack) {
-                IconButton(onClick = navigateUp) {
+                IconButton(onClick = navigateUp, modifier.testTag("back_button")) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = stringResource(R.string.back_button)
@@ -128,8 +130,9 @@ fun VinylsApp(
     artistsViewModel: ArtistsViewModel = viewModel(factory = ArtistsViewModel.Factory),
     albumsViewModel: AlbumsViewModel = viewModel(factory = AlbumsViewModel.Factory),
     artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.Factory),
+    albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.Factory),
     collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory),
-    ) {
+) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
     var screenTitle: Int? = null
@@ -204,8 +207,28 @@ fun VinylsApp(
             composable(route = VinylsAppScreen.Albums.name) {
                 AlbumsScreen(
                     albumsViewModel.albumsUiState,
-                    retryAction = albumsViewModel::getAlbums
+                    retryAction = albumsViewModel::getAlbums,
+                    goToDetail = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") }
                 )
+            }
+            composable(
+                route = "${VinylsAppScreen.Albums.name}/{albumId}",
+                arguments = listOf(navArgument("albumId") { type = NavType.LongType })
+            ) {
+                val albumId = it.arguments?.getLong("albumId")
+                albumId?.let {
+                    LaunchedEffect(albumId) {
+                        albumViewModel.getAlbum(it)
+                    }
+                    AlbumScreen(
+                        albumViewModel.albumUiState,
+                        retryAction = {
+                            albumViewModel.getAlbum(
+                                id = it
+                            )
+                        }
+                    )
+                }
             }
             composable(route = VinylsAppScreen.Collectors.name) {
                 CollectorsScreen(

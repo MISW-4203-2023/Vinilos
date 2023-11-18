@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,21 +34,25 @@ import com.team3.vinilos.view.theme.md_theme_dark_primary
 import com.team3.vinilos.viewModel.AlbumsUiState
 
 @Composable
-fun AlbumsScreen(state: AlbumsUiState, retryAction: () -> Unit) {
+fun AlbumsScreen(state: AlbumsUiState, retryAction: () -> Unit, goToDetail: (id: Long) -> Unit) {
 
     when (state) {
         is AlbumsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is AlbumsUiState.Success -> AlbumsList(albumList = state.albums)
+        is AlbumsUiState.Success -> AlbumsList(albumList = state.albums, goToDetail = goToDetail)
         is AlbumsUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
 
 @Composable
-fun AlbumsList(albumList: List<Album>, modifier: Modifier = Modifier) {
+fun AlbumsList(
+    albumList: List<Album>,
+    goToDetail: (id: Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(modifier = modifier.testTag("albums_list")) {
         items(albumList) { album ->
-            AlbumCard(album = album)
+            AlbumCard(album = album, goToDetail = goToDetail)
             Divider()
         }
     }
@@ -55,16 +60,19 @@ fun AlbumsList(albumList: List<Album>, modifier: Modifier = Modifier) {
 
 
 @Composable
-fun AlbumCard(album: Album, modifier: Modifier = Modifier) {
+fun AlbumCard(album: Album, goToDetail: (id: Long) -> Unit, modifier: Modifier = Modifier) {
     ListItem(
         headlineContent = { Text(album.name) },
         supportingContent = { Text(album.genre ?: "") },
         trailingContent = {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = stringResource(
-                    R.string.go_to_album
+            IconButton(onClick = { goToDetail(album.id) }, modifier = modifier.testTag("btn ${album.name}")) {
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowRight,
+                    contentDescription = stringResource(
+                        R.string.go_to_album
+                    )
                 )
-            )
+            }
         },
         leadingContent = {
             Box(
@@ -90,5 +98,5 @@ fun AlbumCard(album: Album, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun AlbumsPreview() {
-    AlbumsList(Datasource().loadAlbums())
+    AlbumsList(Datasource().loadAlbums(), goToDetail = {})
 }

@@ -1,6 +1,8 @@
 package com.team3.vinilos.model.models
 
+import com.team3.vinilos.model.serializer.DateSerializer
 import kotlinx.serialization.Serializable
+import java.util.Date
 
 @Serializable
 data class Performer (
@@ -8,6 +10,7 @@ data class Performer (
     val name: String,
     val image: String,
     val description: String,
-    val birthDate: String? = null,
+    @Serializable(with = DateSerializer::class)
+    val birthDate: Date? = null,
     val creationDate: String? = null
 )
