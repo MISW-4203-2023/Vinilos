@@ -17,7 +17,6 @@ import com.team3.vinilos.view.screens.VinylsApp
 import com.team3.vinilos.view.screens.VinylsAppScreen
 import com.team3.vinilos.viewModel.AlbumViewModel
 import com.team3.vinilos.viewModel.AlbumsViewModel
-import com.team3.vinilos.viewModel.ArtistUiState
 import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsUiState
 import com.team3.vinilos.viewModel.ArtistsViewModel

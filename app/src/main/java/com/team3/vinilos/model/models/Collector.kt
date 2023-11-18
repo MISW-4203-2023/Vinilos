@@ -10,5 +10,5 @@ data class Collector(
     val email: String? = null,
     val comments: List<Comment>? = null,
     val favoritePerformers: List<Performer>? = null,
-    val collectorAlbums: List<collectorAlbums>? = null
+    val collectorAlbums: List<CollectorAlbums>? = null
 )
