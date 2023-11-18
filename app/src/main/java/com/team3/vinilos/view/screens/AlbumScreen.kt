@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -24,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -62,12 +65,13 @@ fun AlbumScreen(state: AlbumUiState, retryAction: () -> Unit) {
 
 @Composable
 fun AlbumDetail(album: Album, modifier: Modifier = Modifier) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .verticalScroll(scrollState)
             .padding(5.dp)
     ) {
-        Text("Detalle Album", fontSize = 24.sp, modifier = Modifier.padding(10.dp))
         OutlinedCard(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -86,20 +90,19 @@ fun AlbumDetail(album: Album, modifier: Modifier = Modifier) {
             ) {
                 Column {
                     Text(
-                        text = "Album",
-                        modifier = Modifier,
+                        text = album.name,
+                        modifier = modifier.testTag("album_name"),
                         textAlign = TextAlign.Center,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = album.genre.toString(),
+                        text = album.genre.orEmpty(),
                         modifier = Modifier,
                         textAlign = TextAlign.Center,
                         fontSize = 16.sp,
                     )
                 }
-                Icon(imageVector = Icons.Filled.Star, contentDescription = "Favorito")
             }
 
             val simpleDateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
@@ -116,7 +119,7 @@ fun AlbumDetail(album: Album, modifier: Modifier = Modifier) {
 
             )
             Text(
-                text = album.name,
+                text = album.performers?.firstOrNull()?.name.orEmpty(),
                 modifier = Modifier
                     .padding(16.dp, bottom = 4.dp, top = 16.dp),
                 fontSize = 16.sp,

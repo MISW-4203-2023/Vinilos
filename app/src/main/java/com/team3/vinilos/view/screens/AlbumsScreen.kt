@@ -65,7 +65,7 @@ fun AlbumCard(album: Album, goToDetail: (id: Long) -> Unit, modifier: Modifier =
         headlineContent = { Text(album.name) },
         supportingContent = { Text(album.genre ?: "") },
         trailingContent = {
-            IconButton(onClick = { goToDetail(album.id) }) {
+            IconButton(onClick = { goToDetail(album.id) }, modifier = modifier.testTag("btn ${album.name}")) {
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowRight,
                     contentDescription = stringResource(
