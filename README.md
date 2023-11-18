@@ -33,5 +33,5 @@ Para ejecutar la aplicación existen dos alternativas:
 Puede ejecutar la aplicación desde el emulador o a un dispositivo conectado, en el [siguiente enlace](https://developer.android.com/studio/run?hl=es-419) hay documentación adicional acerca de como correr y depurar aplicaciones en android studio.
 
 Para que permita acceder a la información es necesario descargar y ejecutar el backend a continuación se deja el paso a paso para desplegar y ejecutar el backend:
-[Backend]([https://github.com/MISW-4203-2023/BackVynils/blob/master/README.md](https://github.com/MISW-4203-2023/BackVynils)https://github.com/MISW-4203-2023/BackVynils)
+[Backend](https://github.com/MISW-4203-2023/BackVynils)
 
