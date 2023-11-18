@@ -53,12 +53,7 @@ fun AlbumScreen(state: AlbumUiState, retryAction: () -> Unit) {
     when (state) {
         is AlbumUiState.Loading -> Text(text = stringResource(R.string.loading_title))
         is AlbumUiState.Success -> AlbumDetail(album = state.album)
-        is AlbumUiState.Error -> Column {
-            Text(text = stringResource(R.string.error_title))
-            Button(onClick = retryAction) {
-                Text(text = stringResource(R.string.error_retry))
-            }
-        }
+        is AlbumUiState.Error ->  ErrorScreen(retryAction)
     }
 
 }
@@ -110,8 +105,8 @@ fun AlbumDetail(album: Album, modifier: Modifier = Modifier) {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current).data(album.cover)
                     .crossfade(true).build(),
-                error = painterResource(R.drawable.logo),
-                placeholder = painterResource(R.drawable.logo),
+                error = painterResource(R.drawable.image_broken),
+                placeholder = painterResource(R.drawable.icono_img),
                 contentDescription = stringResource(R.string.imagen_del_album),
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier

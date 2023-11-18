@@ -59,7 +59,7 @@ fun ArtistCard(artist: Artist, goToDetail : (id:Long) ->  Unit , modifier: Modif
     ListItem(
         headlineContent = { Text(artist.name) },
         trailingContent = {
-            IconButton(onClick = { goToDetail(artist.id) }) {
+            IconButton(onClick = { goToDetail(artist.id) }, modifier = modifier.testTag("btn ${artist.name}")) {
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = stringResource(
                         R.string.go_to_artist

@@ -10,7 +10,7 @@ import androidx.compose.ui.test.performScrollToIndex
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.team3.vinilos.test.fake.FakeNetworkAlbumsRepository
-import com.team3.vinilos.test.fake.FakeNetworkArtistRepository
+import com.team3.vinilos.test.fake.FakeNetworkArtistsRepository
 import com.team3.vinilos.test.fake.FakeNetworkCollectorRepository
 import com.team3.vinilos.view.screens.VinylsApp
 import com.team3.vinilos.view.screens.VinylsAppScreen
@@ -42,7 +42,7 @@ class VinlysScreenCollectorsTest {
                 albumsRepository = FakeNetworkAlbumsRepository()
             )
             artistsViewModel = ArtistsViewModel(
-                artistsRepository = FakeNetworkArtistRepository()
+                artistsRepository = FakeNetworkArtistsRepository()
             )
             collectorsViewModel = CollectorsViewModel(
                 collectorsRepository = FakeNetworkCollectorRepository()

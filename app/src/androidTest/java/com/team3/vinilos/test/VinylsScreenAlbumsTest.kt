@@ -10,7 +10,7 @@ import androidx.compose.ui.test.performScrollToIndex
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.team3.vinilos.test.fake.FakeNetworkAlbumsRepository
-import com.team3.vinilos.test.fake.FakeNetworkArtistRepository
+import com.team3.vinilos.test.fake.FakeNetworkArtistsRepository
 import com.team3.vinilos.view.screens.VinylsApp
 import com.team3.vinilos.view.screens.VinylsAppScreen
 import com.team3.vinilos.viewModel.AlbumsUiState
@@ -39,7 +39,7 @@ class VinylsScreenAlbumsTest {
                 albumsRepository = FakeNetworkAlbumsRepository()
             )
             artistsViewModel = ArtistsViewModel(
-                artistsRepository = FakeNetworkArtistRepository()
+                artistsRepository = FakeNetworkArtistsRepository()
             )
             VinylsApp(
                 navController = navController,
