@@ -6,15 +6,18 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.team3.vinilos.model.repository.AlbumsRepository
 import com.team3.vinilos.model.repository.ArtistRepository
 import com.team3.vinilos.model.repository.ArtistsRepository
+import com.team3.vinilos.model.repository.CollectorsRepository
 import com.team3.vinilos.model.repository.NetworkAlbumsRepository
 import com.team3.vinilos.model.repository.NetworkArtistRepository
 import com.team3.vinilos.model.repository.NetworkArtistsRepository
+import com.team3.vinilos.model.repository.NetworkCollectorsRepository
 import okhttp3.MediaType.Companion.toMediaType
 
 interface AppContainer {
     val albumsRepository: AlbumsRepository
     val artistsRepository: ArtistsRepository
     val artistRepository: ArtistRepository
+    val collectorsRepository: CollectorsRepository
 }
 
 class DefaultAppContainer : AppContainer {
@@ -56,4 +59,12 @@ class DefaultAppContainer : AppContainer {
         NetworkArtistRepository(artistRetrofitService)
     }
 
+    //Collectors
+    private val collectorsRetrofitService: CollectorsApiService by lazy{
+        retrofit.create(CollectorsApiService::class.java)
+    }
+
+    override val collectorsRepository: CollectorsRepository by lazy {
+        NetworkCollectorsRepository(collectorsRetrofitService)
+    }
 }

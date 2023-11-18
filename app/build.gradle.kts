@@ -84,13 +84,13 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     implementation("io.github.serpro69:kotlin-faker:1.15.0")
 
+
     implementation("io.coil-kt:coil-compose:2.4.0")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
 
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")

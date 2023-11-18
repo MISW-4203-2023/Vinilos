@@ -32,6 +32,7 @@ import com.team3.vinilos.R
 import com.team3.vinilos.viewModel.AlbumsViewModel
 import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsViewModel
+import com.team3.vinilos.viewModel.CollectorsViewModel
 
 enum class VinylsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),
@@ -110,7 +111,7 @@ fun VinylsNavBar(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.headphones_24),
-                    contentDescription = stringResource(R.string.artists_title)
+                    contentDescription = stringResource(R.string.collectors_title)
                 )
             },
             label = { Text(stringResource(R.string.collectors_title)) },
@@ -127,7 +128,8 @@ fun VinylsApp(
     artistsViewModel: ArtistsViewModel = viewModel(factory = ArtistsViewModel.Factory),
     albumsViewModel: AlbumsViewModel = viewModel(factory = AlbumsViewModel.Factory),
     artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.Factory),
-) {
+    collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory),
+    ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
     var screenTitle: Int? = null
@@ -206,10 +208,11 @@ fun VinylsApp(
                 )
             }
             composable(route = VinylsAppScreen.Collectors.name) {
-                CollectorsScreen()
+                CollectorsScreen(
+                    collectorsViewModel.collectorsUiState,
+                    retryAction = collectorsViewModel::getCollectors
+                )
             }
         }
     }
 }
-
-
