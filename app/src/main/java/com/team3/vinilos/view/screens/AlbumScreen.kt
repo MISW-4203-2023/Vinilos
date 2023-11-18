@@ -39,10 +39,11 @@ import com.team3.vinilos.model.models.Album
 import com.team3.vinilos.model.models.Artist
 import com.team3.vinilos.viewModel.AlbumUiState
 import com.team3.vinilos.viewModel.ArtistUiState
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AlbumScreen(state: AlbumUiState, retryAction: () -> Unit) {
 
@@ -59,15 +60,14 @@ fun AlbumScreen(state: AlbumUiState, retryAction: () -> Unit) {
 
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AlbumDetail(album: Album, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(5.dp)
-    ){
-        Text("Detalle Album", fontSize = 24.sp , modifier = Modifier.padding(10.dp))
+    ) {
+        Text("Detalle Album", fontSize = 24.sp, modifier = Modifier.padding(10.dp))
         OutlinedCard(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -82,7 +82,8 @@ fun AlbumDetail(album: Album, modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Column {
                     Text(
                         text = "Album",
@@ -98,13 +99,10 @@ fun AlbumDetail(album: Album, modifier: Modifier = Modifier) {
                         fontSize = 16.sp,
                     )
                 }
-                Icon(imageVector = Icons.Filled.Star , contentDescription = "Favorito")
+                Icon(imageVector = Icons.Filled.Star, contentDescription = "Favorito")
             }
 
-            val dateSt = album.releaseDate.toString()
-            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            val formattedDate = LocalDateTime.parse(dateSt, dateFormatter)
-            val res = DateTimeFormatter.ofPattern("MMMM dd, yyyy").format(formattedDate)
+            val simpleDateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
 
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current).data(album.cover)
@@ -124,7 +122,7 @@ fun AlbumDetail(album: Album, modifier: Modifier = Modifier) {
                 fontSize = 16.sp,
             )
             Text(
-                text = res,
+                text = simpleDateFormat.format(album.releaseDate),
                 modifier = Modifier
                     .padding(start = 16.dp, bottom = 16.dp, top = 4.dp),
                 fontSize = 8.sp,
@@ -144,13 +142,10 @@ fun AlbumDetail(album: Album, modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.End,
             ) {
                 OutlinedButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.Star, contentDescription = "Favorito" )
+                    Icon(imageVector = Icons.Filled.Star, contentDescription = "Favorito")
                     Text(text = "Quitar")
                 }
             }
-
-
-
         }
 
     }

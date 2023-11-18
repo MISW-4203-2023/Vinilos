@@ -29,6 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.team3.vinilos.R
+import com.team3.vinilos.viewModel.AlbumViewModel
 import com.team3.vinilos.viewModel.AlbumsViewModel
 import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsViewModel
@@ -127,6 +128,7 @@ fun VinylsApp(
     artistsViewModel: ArtistsViewModel = viewModel(factory = ArtistsViewModel.Factory),
     albumsViewModel: AlbumsViewModel = viewModel(factory = AlbumsViewModel.Factory),
     artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.Factory),
+    albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.Factory),
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
@@ -202,8 +204,28 @@ fun VinylsApp(
             composable(route = VinylsAppScreen.Albums.name) {
                 AlbumsScreen(
                     albumsViewModel.albumsUiState,
-                    retryAction = albumsViewModel::getAlbums
+                    retryAction = albumsViewModel::getAlbums,
+                    goToDetail = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") }
                 )
+            }
+            composable(
+                route = "${VinylsAppScreen.Albums.name}/{albumId}",
+                arguments = listOf(navArgument("albumId") { type = NavType.LongType })
+            ) {
+                val albumId = it.arguments?.getLong("albumId")
+                albumId?.let {
+                    LaunchedEffect(albumId) {
+                        albumViewModel.getAlbum(it)
+                    }
+                    AlbumScreen(
+                        albumViewModel.albumUiState,
+                        retryAction = {
+                            albumViewModel.getAlbum(
+                                id = it
+                            )
+                        }
+                    )
+                }
             }
             composable(route = VinylsAppScreen.Collectors.name) {
                 CollectorsScreen()
