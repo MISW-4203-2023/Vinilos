@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -24,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,24 +51,20 @@ fun ArtistScreen(state: ArtistUiState, retryAction: () -> Unit) {
     when (state) {
         is ArtistUiState.Loading -> Text(text = stringResource(R.string.loading_title))
         is ArtistUiState.Success -> ArtistDetail(artist = state.artist)
-        is ArtistUiState.Error -> Column {
-            Text(text = stringResource(R.string.error_title))
-            Button(onClick = retryAction) {
-                Text(text = stringResource(R.string.error_retry))
-            }
-        }
+        is ArtistUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
 
 @Composable
 fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .verticalScroll(scrollState)
             .padding(5.dp)
     ) {
-        Text("Detalle Artista", fontSize = 24.sp, modifier = Modifier.padding(10.dp))
         OutlinedCard(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -84,10 +83,10 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
             ) {
                 Column {
                     Text(
-                        text = "Artista",
-                        modifier = Modifier,
+                        text = artist.name,
+                        modifier = modifier.testTag("artist_name"),
                         textAlign = TextAlign.Center,
-                        fontSize = 16.sp,
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -99,15 +98,15 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current).data(artist.image)
                     .crossfade(true).build(),
-                error = painterResource(R.drawable.logo),
-                placeholder = painterResource(R.drawable.logo),
+                error = painterResource(R.drawable.image_broken),
+                placeholder = painterResource(R.drawable.icono_img),
                 contentDescription = "Imagen",
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.size(width = 400.dp, height = 300.dp)
 
             )
             Text(
-                text = artist.name,
+                text = artist.albums?.firstOrNull()?.name.orEmpty(),
                 modifier = Modifier.padding(16.dp, bottom = 4.dp, top = 16.dp),
                 fontSize = 16.sp,
             )

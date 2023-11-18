@@ -13,7 +13,7 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.team3.vinilos.test.fake.FakeNetworkAlbumRepository
 import com.team3.vinilos.test.fake.FakeNetworkAlbumsRepository
-import com.team3.vinilos.test.fake.FakeNetworkArtistRepository
+import com.team3.vinilos.test.fake.FakeNetworkArtistsRepository
 import com.team3.vinilos.view.screens.VinylsApp
 import com.team3.vinilos.view.screens.VinylsAppScreen
 import com.team3.vinilos.viewModel.AlbumViewModel
@@ -47,7 +47,7 @@ class VinylsScreenAlbumDetailTest {
                 albumRepository = FakeNetworkAlbumRepository()
             )
             artistsViewModel = ArtistsViewModel(
-                artistsRepository = FakeNetworkArtistRepository()
+                artistsRepository = FakeNetworkArtistsRepository()
             )
             VinylsApp(
                 navController = navController,
@@ -59,7 +59,7 @@ class VinylsScreenAlbumDetailTest {
     }
 
     @Test
-    fun albumsScreen_scrollOverAllList_findAllAlbums() {
+    fun albumDetailScreen_clickOn30Details_validateTitle() {
         navigateToAlbumScreen()
         navController.assertCurrentRouteName(VinylsAppScreen.Albums.name)
         when (albumsViewModel.albumsUiState) {

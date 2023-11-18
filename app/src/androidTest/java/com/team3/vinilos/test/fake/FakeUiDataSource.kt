@@ -12,6 +12,7 @@ class FakeUiDataSource {
 
     companion object {
         private var allAlbums: List<Album> = mutableListOf()
+        private var allArtists: List<Artist> = mutableListOf()
         fun getAlbums(count: Int): List<Album> {
             if (allAlbums.isEmpty()) {
                 val faker = Faker()
@@ -51,14 +52,29 @@ class FakeUiDataSource {
             return getAlbums(c)[id - 1]
         }
 
-        fun getArtist(count: Int): List<Artist> {
+        fun getArtists(count: Int): List<Artist> {
             val faker = Faker()
-            val artists = mutableListOf<Artist>()
-            for (i in 1..count) {
-                val artist = Artist(id = i.toLong(), name = faker.name.name())
-                artists.add(artist)
-            }
-            return artists
+            if (allArtists.isEmpty()) {
+                val artists = mutableListOf<Artist>()
+                for (i in 1..count) {
+                    val artist = Artist(
+                        id = i.toLong(),
+                        name = faker.name.name(),
+                        birthDate = Date.from(
+                                (faker.person.birthDate(30)).atStartOfDay(ZoneId.systemDefault())
+                                    .toInstant()
+                            ),
+                        description = faker.lorem.supplemental(),
+                        image = "https://picsum.photos/500/500/?random",
+                        )
+                    artists.add(artist)
+                }
+                allArtists = artists
+        }
+        return allArtists
+        }
+        fun getArtist(c: Int, id: Int): Artist {
+            return getArtists(c)[id - 1]
         }
 
         fun getCollector(count: Int): List<Collector> {
