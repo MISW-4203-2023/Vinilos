@@ -38,12 +38,7 @@ fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit, goToDetail : (
     when (state) {
         is ArtistsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
         is ArtistsUiState.Success -> ArtistsList(artistList = state.artists, goToDetail = goToDetail)
-        is ArtistsUiState.Error -> Column {
-            Text(text = stringResource(R.string.error_title))
-            Button(onClick = retryAction) {
-                Text(text = stringResource(R.string.error_retry))
-            }
-        }
+        is ArtistsUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
