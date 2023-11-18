@@ -30,6 +30,9 @@ Para ejecutar la aplicación existen dos alternativas:
 
 #### Pasos: 
 
+Puede ejecutar la aplicación desde el emulador o a un dispositivo conectado, en el [siguiente enlace](https://developer.android.com/studio/run?hl=es-419) hay documentación adicional acerca de como correr y depurar aplicaciones en android studio.
+Para que permita acceder a la información es necesario descargar y ejecutar el backend a continuación se deja el paso a paso para desplegar y ejecutar el backend:
+
 ##### Backend
 
 1. Descargar el proyecto de BackVynils del repositorio: https://github.com/MISW-4203-2023/BackVynils este es el backend de la herramienta
@@ -62,4 +65,4 @@ Para ejecutar la aplicación existen dos alternativas:
 
 ![image](https://github.com/MISW-4203-2023/Vinilos/assets/124005780/9e0b40d5-c808-47a7-bc5b-7723e1213bcd)
 
-6. Puede ejecutar la aplicación desde el emulador o a un dispositivo conectado, en el [siguiente enlace](https://developer.android.com/studio/run?hl=es-419) hay documentación adicional acerca de como correr y depurar aplicaciones en android studio.
+
