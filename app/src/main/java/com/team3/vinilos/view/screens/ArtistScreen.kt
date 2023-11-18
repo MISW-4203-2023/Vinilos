@@ -37,10 +37,11 @@ import com.team3.vinilos.R
 import com.team3.vinilos.model.Datasource
 import com.team3.vinilos.model.models.Artist
 import com.team3.vinilos.viewModel.ArtistUiState
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ArtistScreen(state: ArtistUiState, retryAction: () -> Unit) {
 
@@ -57,15 +58,14 @@ fun ArtistScreen(state: ArtistUiState, retryAction: () -> Unit) {
 
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(5.dp)
-    ){
-        Text("Detalle Artista", fontSize = 24.sp , modifier = Modifier.padding(10.dp))
+    ) {
+        Text("Detalle Artista", fontSize = 24.sp, modifier = Modifier.padding(10.dp))
         OutlinedCard(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -80,7 +80,8 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Column {
                     Text(
                         text = "Artista",
@@ -90,13 +91,10 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Icon(imageVector = Icons.Filled.Star , contentDescription = "Favorito")
+                Icon(imageVector = Icons.Filled.Star, contentDescription = "Favorito")
             }
 
-            val dateSt = artist.birthDate.toString()
-            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            val formattedDate = LocalDateTime.parse(dateSt, dateFormatter)
-            val res = DateTimeFormatter.ofPattern("MMMM dd, yyyy").format(formattedDate) // August 04, 2017 | 6:39pm
+            val simpleDateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
 
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current).data(artist.image)
@@ -105,50 +103,32 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
                 placeholder = painterResource(R.drawable.logo),
                 contentDescription = "Imagen",
                 contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .size(width = 400.dp, height = 300.dp)
+                modifier = Modifier.size(width = 400.dp, height = 300.dp)
 
             )
             Text(
                 text = artist.name,
-                modifier = Modifier
-                    .padding(16.dp, bottom = 4.dp, top = 16.dp),
+                modifier = Modifier.padding(16.dp, bottom = 4.dp, top = 16.dp),
                 fontSize = 16.sp,
             )
             Text(
-                text = res,
-                modifier = Modifier
-                    .padding(start = 16.dp, bottom = 16.dp, top = 4.dp),
+                text = simpleDateFormat.format(artist.birthDate),
+                modifier = Modifier.padding(start = 16.dp, bottom = 16.dp, top = 4.dp),
                 fontSize = 8.sp,
             )
 
             Text(
                 text = artist.description.toString(),
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 fontSize = 10.sp,
                 lineHeight = 16.sp
             )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp, end = 16.dp, bottom = 16.dp),
-                horizontalArrangement = Arrangement.End,
-            ) {
-                OutlinedButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.Star, contentDescription = "Favorito" )
-                    Text(text = "Quitar")
-                }
-            }
-
-
-
         }
 
     }
 
 }
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Preview
 @Composable
 private fun ArtistPreview() {
