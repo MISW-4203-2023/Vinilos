@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,11 +34,19 @@ import com.team3.vinilos.view.theme.md_theme_dark_primary
 import com.team3.vinilos.viewModel.CollectorsUiState
 
 @Composable
-fun CollectorsScreen(state: CollectorsUiState, retryAction: () -> Unit) {
+fun CollectorsScreen(
+    state: CollectorsUiState,
+    retryAction: () -> Unit,
+    goToDetail: (id: Long) -> Unit
+) {
 
     when (state) {
         is CollectorsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is CollectorsUiState.Success -> CollectorsList(collectorList = state.collectors)
+        is CollectorsUiState.Success -> CollectorsList(
+            collectorList = state.collectors,
+            goToDetail = goToDetail
+        )
+
         is CollectorsUiState.Error -> Column {
             Text(text = stringResource(R.string.error_title))
             Button(onClick = retryAction) {
@@ -49,10 +58,14 @@ fun CollectorsScreen(state: CollectorsUiState, retryAction: () -> Unit) {
 }
 
 @Composable
-fun CollectorsList(collectorList: List<Collector>, modifier: Modifier = Modifier) {
+fun CollectorsList(
+    collectorList: List<Collector>,
+    goToDetail: (id: Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(modifier = modifier.testTag("collector_list")) {
         items(collectorList) { collector ->
-            CollectorCard(collector = collector)
+            CollectorCard(collector = collector, goToDetail = goToDetail)
             Divider()
         }
     }
@@ -60,15 +73,24 @@ fun CollectorsList(collectorList: List<Collector>, modifier: Modifier = Modifier
 
 
 @Composable
-fun CollectorCard(collector: Collector, modifier: Modifier = Modifier) {
+fun CollectorCard(
+    collector: Collector,
+    goToDetail: (id: Long) -> Unit, modifier: Modifier = Modifier
+) {
     ListItem(
         headlineContent = { Text(collector.name) },
         trailingContent = {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = stringResource(
-                    R.string.go_to_collector
+            IconButton(
+                onClick = { goToDetail(collector.id) },
+                modifier = modifier.testTag("btn ${collector.name}")
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowRight,
+                    contentDescription = stringResource(
+                        R.string.go_to_collector
+                    )
                 )
-            )
+            }
         },
         leadingContent = {
             Box(
@@ -94,5 +116,5 @@ fun CollectorCard(collector: Collector, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun CollectorsPreview() {
-    CollectorsList(Datasource().loadCollectors(10))
+    CollectorsList(Datasource().loadCollectors(10), {})
 }
