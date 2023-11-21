@@ -33,7 +33,7 @@ import com.team3.vinilos.viewModel.ArtistsUiState
 fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit, goToDetail : (id:Long) ->  Unit) {
 
     when (state) {
-        is ArtistsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
+        is ArtistsUiState.Loading -> LoadingScreen()
         is ArtistsUiState.Success -> ArtistsList(artistList = state.artists, goToDetail = goToDetail)
         is ArtistsUiState.Error -> ErrorScreen(retryAction)
     }

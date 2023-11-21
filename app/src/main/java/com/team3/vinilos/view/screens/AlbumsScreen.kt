@@ -35,7 +35,7 @@ import com.team3.vinilos.viewModel.AlbumsUiState
 fun AlbumsScreen(state: AlbumsUiState, retryAction: () -> Unit, goToDetail: (id: Long) -> Unit) {
 
     when (state) {
-        is AlbumsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
+        is AlbumsUiState.Loading -> LoadingScreen()
         is AlbumsUiState.Success -> AlbumsList(albumList = state.albums, goToDetail = goToDetail)
         is AlbumsUiState.Error -> ErrorScreen(retryAction)
     }
