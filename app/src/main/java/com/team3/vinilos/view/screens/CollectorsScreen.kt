@@ -40,7 +40,11 @@ fun CollectorsScreen(
 
     when (state) {
         is CollectorsUiState.Loading -> LoadingScreen()
-        is CollectorsUiState.Success -> CollectorsList(collectorList = state.collectors)
+        is CollectorsUiState.Success -> CollectorsList(
+            collectorList = state.collectors,
+            goToDetail = goToDetail
+        )
+
         is CollectorsUiState.Error -> ErrorScreen(retryAction)
     }
 
