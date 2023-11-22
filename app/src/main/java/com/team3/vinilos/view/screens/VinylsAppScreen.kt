@@ -277,7 +277,9 @@ fun VinylsApp(
                                     collectorViewModel.getCollector(
                                         id = it
                                     )
-                                }
+                                },
+                                //PAra ir al musico
+                                goToDetail = { navController.navigate("${VinylsAppScreen.Artists.name}/$it")}
                             )
                         }
                     }
