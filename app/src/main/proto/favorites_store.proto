@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "com.team3.proto";
+option java_multiple_files = true;
+
+message FavoritePreferences {
+  bool show_favorites = 1;
+  message Artist {
+    int32 id = 1;
+    string name =2;
+    string image = 3;
+    string  description = 4;
+  }
+  repeated Artist artists = 2;
+}
