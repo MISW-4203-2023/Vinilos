@@ -8,9 +8,6 @@ message FavoritePreferences {
   message Artist {
     int32 id = 1;
     string name =2;
-    string image = 3;
-    string  description = 4;
-    bool favorite = 5;
   }
   repeated Artist artists = 2;
 }

@@ -34,22 +34,14 @@ class FavoritePreferencesRepository(
         }
     }
 
-    suspend fun getArtist(artistId: Long){
-        /*favoritePreferencesStore.updateData { preferences ->
-            preferences.toBuilder().getArtists(artistId.toInt())
-        }*/
-    }
     suspend fun agregarArtistaFavorito(artist: Artist){
         val newArtist = FavoritePreferences.Artist.newBuilder()
             .setId(artist.id.toInt())
             .setName(artist.name)
-            .setImage(artist.image)
-            .setDescription(artist.description)
-            .setFavorite(true)
             .build()
 
         favoritePreferencesStore.updateData { preferences ->
-            preferences.toBuilder().addArtists(artist.id.toInt(), newArtist).build()
+            preferences.toBuilder().addArtists(newArtist).build()
         }
         val favoritePrint = favoritePreferencesFlow
         Log.i("Favorite Data: ",favoritePrint.toString())

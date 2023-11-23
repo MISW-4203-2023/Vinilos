@@ -159,6 +159,7 @@ fun VinylsApp(
     } catch (_: IllegalArgumentException) {
     }
     var appUiState = appViewModel.uiState.collectAsState().value
+    var favoriteUiSte = favoriteViewModel.favoriteUiState.collectAsState().value
     VinylsTheme(useDarkTheme = appUiState.isDarkMode) {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -211,9 +212,11 @@ fun VinylsApp(
                         artistId?.let {
                             LaunchedEffect(artistId) {
                                 artistViewModel.getArtist(it)
+                                favoriteViewModel.isFavoriteArtist(it)
                             }
                             ArtistScreen(
                                 artistViewModel.artistUiState,
+                                favoriteUiSte,
                                 retryAction = {
                                     artistViewModel.getArtist(
                                         id = it

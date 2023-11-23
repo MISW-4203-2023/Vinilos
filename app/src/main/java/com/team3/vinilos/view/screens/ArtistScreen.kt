@@ -34,23 +34,24 @@ import com.team3.vinilos.R
 import com.team3.vinilos.model.Datasource
 import com.team3.vinilos.model.models.Artist
 import com.team3.vinilos.viewModel.ArtistUiState
+import com.team3.vinilos.viewModel.FavoriteArtistUiState
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.reflect.KFunction1
 
 @Composable
-fun ArtistScreen(state: ArtistUiState, retryAction: () -> Unit, addFavorite : (artist:Artist) -> Unit) {
+fun ArtistScreen(state: ArtistUiState,  stateFavorite: FavoriteArtistUiState ,retryAction: () -> Unit, addFavorite : (artist:Artist) -> Unit) {
 
     when (state) {
         is ArtistUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is ArtistUiState.Success -> ArtistDetail(artist = state.artist, addFavorite = addFavorite)
+        is ArtistUiState.Success -> ArtistDetail(artist = state.artist, isFavorite = stateFavorite.isFavorite, addFavorite = addFavorite, )
         is ArtistUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
 
 @Composable
-fun ArtistDetail(artist: Artist, addFavorite : (artist:Artist) -> Unit, modifier: Modifier = Modifier) {
+fun ArtistDetail(artist: Artist, isFavorite: Boolean ,addFavorite : (artist:Artist) -> Unit, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
     Column(
         modifier = modifier
@@ -125,7 +126,7 @@ fun ArtistDetail(artist: Artist, addFavorite : (artist:Artist) -> Unit, modifier
                 .padding(all = 8.dp) // add margin
                 .align(alignment = Alignment.CenterEnd),
             icon = { Icon(Icons.Filled.Favorite, "Agregar a favoritos.") },
-            text = { Text(text = "Agregar") },
+            text = { Text(text = isFavorite.toString()) },
         )
     }
 }
