@@ -41,6 +41,7 @@ import com.team3.vinilos.viewModel.AppViewModel
 import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsViewModel
 import com.team3.vinilos.viewModel.CollectorsViewModel
+import com.team3.vinilos.viewModel.FavoriteViewModel
 
 enum class VinylsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),
@@ -146,7 +147,8 @@ fun VinylsApp(
     artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.Factory),
     albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.Factory),
     collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory),
-    appViewModel: AppViewModel = viewModel(factory = AppViewModel.Factory)
+    appViewModel: AppViewModel = viewModel(factory = AppViewModel.Factory),
+    favoriteViewModel: FavoriteViewModel = viewModel(factory = FavoriteViewModel.Factory)
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
@@ -197,7 +199,8 @@ fun VinylsApp(
                         ArtistsScreen(
                             artistsViewModel.artistUiState,
                             retryAction = artistsViewModel::getArtists,
-                            goToDetail = { navController.navigate("${VinylsAppScreen.Artists.name}/$it") }
+                            goToDetail = { navController.navigate("${VinylsAppScreen.Artists.name}/$it")
+                            }
                         )
                     }
                     composable(
@@ -215,7 +218,8 @@ fun VinylsApp(
                                     artistViewModel.getArtist(
                                         id = it
                                     )
-                                }
+                                },
+                                addFavorite = favoriteViewModel::agregarArtistaFavorito
                             )
                         }
 

@@ -36,20 +36,21 @@ import com.team3.vinilos.model.models.Artist
 import com.team3.vinilos.viewModel.ArtistUiState
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.reflect.KFunction1
 
 @Composable
-fun ArtistScreen(state: ArtistUiState, retryAction: () -> Unit) {
+fun ArtistScreen(state: ArtistUiState, retryAction: () -> Unit, addFavorite : (artist:Artist) -> Unit) {
 
     when (state) {
         is ArtistUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is ArtistUiState.Success -> ArtistDetail(artist = state.artist)
+        is ArtistUiState.Success -> ArtistDetail(artist = state.artist, addFavorite = addFavorite)
         is ArtistUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
 
 @Composable
-fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
+fun ArtistDetail(artist: Artist, addFavorite : (artist:Artist) -> Unit, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
     Column(
         modifier = modifier
@@ -119,7 +120,7 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
     }
     Box(modifier = Modifier.fillMaxSize()) {
         ExtendedFloatingActionButton(
-            onClick = { },
+            onClick = { addFavorite(artist) },
             modifier = Modifier
                 .padding(all = 8.dp) // add margin
                 .align(alignment = Alignment.CenterEnd),
@@ -132,7 +133,6 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun ArtistPreview() {
-    ArtistDetail(Datasource().getArtist())
 }
 
 
