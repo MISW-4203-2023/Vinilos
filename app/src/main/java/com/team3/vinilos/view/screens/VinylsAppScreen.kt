@@ -34,6 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.team3.vinilos.R
 import com.team3.vinilos.view.theme.VinylsTheme
+import com.team3.vinilos.viewModel.AlbumAddViewModel
 import com.team3.vinilos.viewModel.AlbumViewModel
 import com.team3.vinilos.viewModel.AlbumsViewModel
 import com.team3.vinilos.viewModel.AppUiState
@@ -146,6 +147,7 @@ fun VinylsApp(
     artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.Factory),
     albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.Factory),
     collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory),
+    albumAddViewModel: AlbumAddViewModel = viewModel(factory = AlbumAddViewModel.Factory),
     appViewModel: AppViewModel = viewModel(factory = AppViewModel.Factory)
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -259,6 +261,7 @@ fun VinylsApp(
                             retryAction = collectorsViewModel::getCollectors
                         )
                     }
+
                 }
             }
         }
