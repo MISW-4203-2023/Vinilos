@@ -1,7 +1,10 @@
 package com.team3.vinilos.model.serializer
 
+import android.content.Context
 import androidx.datastore.core.CorruptionException
+import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
+import androidx.datastore.dataStore
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
 import com.team3.proto.FavoritePreferences
 import java.io.InputStream
@@ -19,3 +22,4 @@ object FavoriteSeralizer : Serializer<FavoritePreferences> {
 
     override suspend fun writeTo(t: FavoritePreferences, output: OutputStream) = t.writeTo(output)
 }
+
