@@ -25,61 +25,35 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.team3.vinilos.R
 import com.team3.vinilos.model.models.Artist
+import com.team3.vinilos.view.fragments.ArtistListItem
 import com.team3.vinilos.view.theme.md_theme_dark_onPrimary
 import com.team3.vinilos.view.theme.md_theme_dark_primary
 import com.team3.vinilos.viewModel.ArtistsUiState
 
 @Composable
-fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit, goToDetail : (id:Long) ->  Unit) {
+fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit, goToDetail: (id: Long) -> Unit) {
 
     when (state) {
         is ArtistsUiState.Loading -> LoadingScreen()
-        is ArtistsUiState.Success -> ArtistsList(artistList = state.artists, goToDetail = goToDetail)
+        is ArtistsUiState.Success -> ArtistsList(
+            artistList = state.artists,
+            goToDetail = goToDetail
+        )
+
         is ArtistsUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
 
 @Composable
-fun ArtistsList(artistList: List<Artist>, goToDetail : (id:Long) ->  Unit, modifier: Modifier = Modifier) {
+fun ArtistsList(
+    artistList: List<Artist>,
+    goToDetail: (id: Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(modifier = modifier.testTag("artist_list")) {
         items(artistList) { artist ->
-            ArtistCard(artist = artist, goToDetail = goToDetail)
-            Divider()
+            ArtistListItem(artist = artist, goToArtist = goToDetail)
         }
     }
-}
-
-
-@Composable
-fun ArtistCard(artist: Artist, goToDetail : (id:Long) ->  Unit , modifier: Modifier = Modifier) {
-    ListItem(
-        headlineContent = { Text(artist.name) },
-        trailingContent = {
-            IconButton(onClick = { goToDetail(artist.id) }, modifier = modifier.testTag("btn ${artist.name}")) {
-                Icon(
-                    imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = stringResource(
-                        R.string.go_to_artist
-                    )
-                )
-            }
-        },
-        leadingContent = {
-            Box(
-                modifier = Modifier
-                    .size(35.dp)
-                    .clip(CircleShape)
-                    .background(md_theme_dark_onPrimary),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = artist.name.first().uppercase(),
-                    color = md_theme_dark_primary,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        },
-        modifier = modifier.padding(4.dp, 8.dp)
-    )
 }

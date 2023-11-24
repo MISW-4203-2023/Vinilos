@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.team3.vinilos.R
 import com.team3.vinilos.model.Datasource
 import com.team3.vinilos.model.models.Album
+import com.team3.vinilos.view.fragments.AlbumListItem
 import com.team3.vinilos.view.theme.md_theme_dark_onPrimary
 import com.team3.vinilos.view.theme.md_theme_dark_primary
 import com.team3.vinilos.viewModel.AlbumsUiState
@@ -50,48 +51,10 @@ fun AlbumsList(
 ) {
     LazyColumn(modifier = modifier.testTag("albums_list")) {
         items(albumList) { album ->
-            AlbumCard(album = album, goToDetail = goToDetail)
-            Divider()
+            AlbumListItem(album = album, goToAlbum = { goToDetail(album.id) })
         }
     }
 }
-
-
-@Composable
-fun AlbumCard(album: Album, goToDetail: (id: Long) -> Unit, modifier: Modifier = Modifier) {
-    ListItem(
-        headlineContent = { Text(album.name) },
-        supportingContent = { Text(album.genre ?: "") },
-        trailingContent = {
-            IconButton(onClick = { goToDetail(album.id) }, modifier = modifier.testTag("btn ${album.name}")) {
-                Icon(
-                    imageVector = Icons.Filled.KeyboardArrowRight,
-                    contentDescription = stringResource(
-                        R.string.go_to_album
-                    )
-                )
-            }
-        },
-        leadingContent = {
-            Box(
-                modifier = Modifier
-                    .size(35.dp)
-                    .clip(CircleShape)
-                    .background(md_theme_dark_onPrimary),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = album.name.first().toString().uppercase(),
-                    color = md_theme_dark_primary,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        },
-        modifier = modifier.padding(4.dp, 8.dp)
-    )
-}
-
 
 @Preview
 @Composable

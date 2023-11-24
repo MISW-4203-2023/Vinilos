@@ -15,6 +15,6 @@ data class Album(
     val genre: String? = null,
     val recordLabel: String? = null,
     val tracks: List<Track>? = null,
-    val performers: List<Performer>? = null,
+    val performers: List<Artist>? = null,
     val comments: List<Comment>? = null
 )

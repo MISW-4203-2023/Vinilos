@@ -278,8 +278,8 @@ fun VinylsApp(
                                         id = it
                                     )
                                 },
-                                //PAra ir al musico
-                                goToDetail = { navController.navigate("${VinylsAppScreen.Artists.name}/$it")}
+                                goToArtist = { navController.navigate("${VinylsAppScreen.Artists.name}/$it") },
+                                goToAlbum = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") }
                             )
                         }
                     }
