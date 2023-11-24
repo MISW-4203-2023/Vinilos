@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -44,14 +45,14 @@ fun ArtistScreen(state: ArtistUiState,  stateFavorite: FavoriteArtistUiState ,re
 
     when (state) {
         is ArtistUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is ArtistUiState.Success -> ArtistDetail(artist = state.artist, isFavorite = stateFavorite.isFavorite, addFavorite = addFavorite, )
+        is ArtistUiState.Success -> ArtistDetail(artist = state.artist, isFavorite = stateFavorite.isFavorite, textFavorite = stateFavorite.text, stateFavorite = stateFavorite, addFavorite = addFavorite, )
         is ArtistUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
 
 @Composable
-fun ArtistDetail(artist: Artist, isFavorite: Boolean ,addFavorite : (artist:Artist) -> Unit, modifier: Modifier = Modifier) {
+fun ArtistDetail(artist: Artist, isFavorite: Boolean ,textFavorite: Int, stateFavorite: FavoriteArtistUiState , addFavorite : (artist:Artist) -> Unit, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
     Column(
         modifier = modifier
@@ -75,11 +76,17 @@ fun ArtistDetail(artist: Artist, isFavorite: Boolean ,addFavorite : (artist:Arti
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text(
-                        text = artist.name,
-                        modifier = modifier.testTag("artist_name"),
-                        style = MaterialTheme.typography.headlineSmall
-                    )
+                    Row(){
+                        if(isFavorite){
+                            Icon(Icons.Filled.Favorite,
+                                contentDescription = "Favorito")
+                        }
+                        Text(
+                            text = artist.name,
+                            modifier = modifier.testTag("artist_name"),
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+                    }
                 }
             }
 
@@ -125,8 +132,14 @@ fun ArtistDetail(artist: Artist, isFavorite: Boolean ,addFavorite : (artist:Arti
             modifier = Modifier
                 .padding(all = 8.dp) // add margin
                 .align(alignment = Alignment.CenterEnd),
-            icon = { Icon(Icons.Filled.Favorite, "Agregar a favoritos.") },
-            text = { Text(text = isFavorite.toString()) },
+            icon = { Icon(if(isFavorite){
+                Icons.Filled.FavoriteBorder
+            }else{
+                Icons.Filled.Favorite},"Agregar a favoritos.") },
+            text = { Text(text = (if(isFavorite){
+                stringResource(R.string.quitar)
+            }else{
+                stringResource(R.string.agregar)}) ) }
         )
     }
 }
