@@ -233,8 +233,14 @@ fun VinylsApp(
                         AlbumsScreen(
                             albumsViewModel.albumsUiState,
                             retryAction = albumsViewModel::getAlbums,
-                            goToDetail = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") }
+                            goToDetail = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") },
+                            goToCreate = { navController.navigate("${VinylsAppScreen.Albums.name}/create") }
                         )
+                    }
+                    composable(
+                        route = "${VinylsAppScreen.Albums.name}/create"
+                    ) {
+                        AlbumCreateScreen()
                     }
                     composable(
                         route = "${VinylsAppScreen.Albums.name}/{albumId}",

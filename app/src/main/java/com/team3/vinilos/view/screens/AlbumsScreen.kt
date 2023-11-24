@@ -43,11 +43,21 @@ import com.team3.vinilos.view.theme.md_theme_dark_primary
 import com.team3.vinilos.viewModel.AlbumsUiState
 
 @Composable
-fun AlbumsScreen(state: AlbumsUiState, retryAction: () -> Unit, goToDetail: (id: Long) -> Unit) {
+fun AlbumsScreen(
+    state: AlbumsUiState,
+    retryAction: () -> Unit,
+    goToDetail: (id: Long) -> Unit,
+    goToCreate: () -> Unit
+) {
 
     when (state) {
         is AlbumsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is AlbumsUiState.Success -> AlbumsList(albumList = state.albums, goToDetail = goToDetail)
+        is AlbumsUiState.Success -> AlbumsList(
+            albumList = state.albums,
+            goToDetail = goToDetail,
+            goToCreate = goToCreate
+        )
+
         is AlbumsUiState.Error -> ErrorScreen(retryAction)
     }
 
@@ -57,13 +67,14 @@ fun AlbumsScreen(state: AlbumsUiState, retryAction: () -> Unit, goToDetail: (id:
 fun AlbumsList(
     albumList: List<Album>,
     goToDetail: (id: Long) -> Unit,
+    goToCreate: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .padding(4.dp, 8.dp)
             .fillMaxWidth()
-    )  {
+    ) {
         LazyColumn(modifier = modifier.testTag("albums_list")) {
             items(albumList) { album ->
                 AlbumCard(album = album, goToDetail = goToDetail)
@@ -71,7 +82,7 @@ fun AlbumsList(
             }
         }
         ExtendedFloatingActionButton(
-            onClick =  {},
+            onClick = goToCreate,
             icon = { Icon(Icons.Filled.Add, "Agregar") },
             text = { Text(text = "Agregar") },
             modifier = Modifier
@@ -84,40 +95,42 @@ fun AlbumsList(
 }
 
 
-
 @Composable
 fun AlbumCard(album: Album, goToDetail: (id: Long) -> Unit, modifier: Modifier = Modifier) {
     ListItem(
-            headlineContent = { Text(album.name) },
-            supportingContent = { Text(album.genre ?: "") },
-            trailingContent = {
-                IconButton(onClick = { goToDetail(album.id) }, modifier = modifier.testTag("btn ${album.name}")) {
-                    Icon(
-                        imageVector = Icons.Filled.KeyboardArrowRight,
-                        contentDescription = stringResource(
-                            R.string.go_to_album
-                        )
+        headlineContent = { Text(album.name) },
+        supportingContent = { Text(album.genre ?: "") },
+        trailingContent = {
+            IconButton(
+                onClick = { goToDetail(album.id) },
+                modifier = modifier.testTag("btn ${album.name}")
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowRight,
+                    contentDescription = stringResource(
+                        R.string.go_to_album
                     )
-                }
-            },
-            leadingContent = {
-                Box(
-                    modifier = Modifier
-                        .size(35.dp)
-                        .clip(CircleShape)
-                        .background(md_theme_dark_onPrimary),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = album.name.first().toString().uppercase(),
-                        color = md_theme_dark_primary,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            },
-            modifier = modifier.padding(4.dp, 8.dp)
-        )
+                )
+            }
+        },
+        leadingContent = {
+            Box(
+                modifier = Modifier
+                    .size(35.dp)
+                    .clip(CircleShape)
+                    .background(md_theme_dark_onPrimary),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = album.name.first().toString().uppercase(),
+                    color = md_theme_dark_primary,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        },
+        modifier = modifier.padding(4.dp, 8.dp)
+    )
 
 
 }
@@ -126,5 +139,5 @@ fun AlbumCard(album: Album, goToDetail: (id: Long) -> Unit, modifier: Modifier =
 @Preview
 @Composable
 private fun AlbumsPreview() {
-    AlbumsList(Datasource().loadAlbums(), goToDetail = {})
+    AlbumsList(Datasource().loadAlbums(), goToDetail = {}, goToCreate = {})
 }
