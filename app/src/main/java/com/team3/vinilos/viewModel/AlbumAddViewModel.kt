@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.team3.vinilos.VinylsApplication
 import com.team3.vinilos.model.models.Album
+import com.team3.vinilos.model.models.CreateAlbum
 import com.team3.vinilos.model.repository.AlbumAddRepository
 import com.team3.vinilos.model.repository.AlbumRepository
 import com.team3.vinilos.model.repository.UserPreferencesRepository
@@ -19,7 +20,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface AlbumAddUiState {
-    data class Success(val album: Album) : AlbumAddUiState
+    data class Success(val album: CreateAlbum) : AlbumAddUiState
     object Error : AlbumAddUiState
     object Loading : AlbumAddUiState
 }
@@ -31,10 +32,11 @@ class AlbumAddViewModel(
     var albumAddUiState: AlbumAddUiState by mutableStateOf(AlbumAddUiState.Loading)
         private set
 
-    fun addAlbum(album: Album) {
+    fun addAlbum(album: CreateAlbum) {
         viewModelScope.launch {
             albumAddUiState = AlbumAddUiState.Loading
             albumAddUiState = try {
+                Log.i("album a crear: ",album.toString())
                 AlbumAddUiState.Success(albumAddRepository.addAlbum(album))
             } catch (e: IOException) {
                 AlbumAddUiState.Error

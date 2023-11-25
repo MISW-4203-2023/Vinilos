@@ -43,18 +43,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import com.team3.vinilos.model.models.Album
 import com.team3.vinilos.model.models.CreateAlbum
+import com.team3.vinilos.viewModel.AlbumAddUiState
+import com.team3.vinilos.viewModel.AlbumAddViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
+import com.team3.vinilos.view.theme.md_theme_light_error
 
 
 @Composable
-fun AlbumCreateScreen() {
-    AlbumCreate()
+fun AlbumCreateScreen(state: AlbumAddViewModel, navigateUp: () -> Unit) {
+    AlbumCreate(state = state, navigateUp = navigateUp)
 }
 
 @Composable
-fun AlbumCreate(modifier: Modifier = Modifier) {
+fun AlbumCreate(state: AlbumAddViewModel, navigateUp: () -> Unit, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
     var createAlbum by remember { mutableStateOf(CreateAlbum(name = "")) }
 
@@ -62,6 +66,7 @@ fun AlbumCreate(modifier: Modifier = Modifier) {
     val genero = arrayOf("Classical", "Salsa", "Rock", "Folk")
     var expanded by remember { mutableStateOf(false) }
     var selectedItemIndex by remember { mutableStateOf(0) }
+    var isNameValid by remember { mutableStateOf(true) }
 
 
     Column(
@@ -80,11 +85,13 @@ fun AlbumCreate(modifier: Modifier = Modifier) {
             value = createAlbum.name,
             onValueChange = {
                 createAlbum = createAlbum.copy(name = it)
+                isNameValid = it.isNotBlank()
             },
             label = { Text("Nombre") },
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
+            isError = !isNameValid,
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .fillMaxWidth(),
@@ -115,10 +122,23 @@ fun AlbumCreate(modifier: Modifier = Modifier) {
                 imeAction = ImeAction.Next
             ),
             modifier = Modifier
-                .padding(bottom = 12.dp)
+                .padding(bottom = 8.dp)
                 .fillMaxWidth(),
         )
 
+        OutlinedTextField(
+            value = createAlbum.description ?: "",
+            onValueChange = {
+                createAlbum = createAlbum.copy(description = it)
+            },
+            label = { Text("Descripción") },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Next
+            ),
+            modifier = Modifier
+                .padding(bottom = 12.dp)
+                .fillMaxWidth(),
+        )
         CustomDatepicker(onValueChange = {createAlbum = createAlbum.copy(releaseDate = it)})
 
         ExposedDropdownMenuBox(
@@ -165,12 +185,17 @@ fun AlbumCreate(modifier: Modifier = Modifier) {
                 .padding(6.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            OutlinedButton(onClick = { /* Acciones al hacer clic en el botón Cancelar */ }) {
+            OutlinedButton(onClick = navigateUp ) {
                 Text("Cancelar")
             }
             Button(onClick = {
-
-                Toast.makeText(context, "Album: " + createAlbum, Toast.LENGTH_SHORT)
+                if (isNameValid) {
+                    state.addAlbum(album = createAlbum)
+                    Toast.makeText(context, "Album " + createAlbum.name + " creado exitosamente!", Toast.LENGTH_SHORT).show()
+                    navigateUp()
+                } else {
+                    Toast.makeText(context, "El nombre es obligatorio", Toast.LENGTH_LONG).show()
+                }
 
             }) {
                 Text("Guardar")

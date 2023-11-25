@@ -240,7 +240,7 @@ fun VinylsApp(
                     composable(
                         route = "${VinylsAppScreen.Albums.name}/create"
                     ) {
-                        AlbumCreateScreen()
+                        AlbumCreateScreen(albumAddViewModel,navigateUp = { navController.navigateUp() })
                     }
                     composable(
                         route = "${VinylsAppScreen.Albums.name}/{albumId}",

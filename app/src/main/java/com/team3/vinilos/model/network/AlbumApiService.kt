@@ -1,6 +1,7 @@
 package com.team3.vinilos.model.network
 
 import com.team3.vinilos.model.models.Album
+import com.team3.vinilos.model.models.CreateAlbum
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -11,5 +12,5 @@ interface AlbumApiService {
     suspend fun getAlbum(@Path("id") id: Long): Album
 
     @POST("albums")
-    suspend fun  addAlbum(@Body album: Album): Album
+    suspend fun  addAlbum(@Body album: CreateAlbum): CreateAlbum
 }
