@@ -20,6 +20,7 @@ import com.team3.vinilos.viewModel.AlbumsViewModel
 import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsUiState
 import com.team3.vinilos.viewModel.ArtistsViewModel
+import com.team3.vinilos.viewModel.FavoriteViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -70,7 +71,6 @@ class VinylsScreenArtistDetailTest {
         when (artistsViewModel.artistUiState) {
             is ArtistsUiState.Success -> {
                 val artists = (artistsViewModel.artistUiState as ArtistsUiState.Success).artists
-
                 for (j in 0 until 30) {
                     val i = Random.nextInt(1, 90)
                     val artistName = artists[i].name
@@ -85,6 +85,8 @@ class VinylsScreenArtistDetailTest {
                     composeTestRule.onNodeWithTag("artist_name")
                         .assertTextEquals(artistName)
                     composeTestRule.onNodeWithTag("back_button")
+                        .performClick()
+                    composeTestRule.onNodeWithTag("favorite")
                         .performClick()
                 }
             }

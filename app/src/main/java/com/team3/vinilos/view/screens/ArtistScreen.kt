@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -41,18 +42,18 @@ import java.util.Locale
 import kotlin.reflect.KFunction1
 
 @Composable
-fun ArtistScreen(state: ArtistUiState,  stateFavorite: FavoriteArtistUiState ,retryAction: () -> Unit, addFavorite : (artist:Artist) -> Unit) {
+fun ArtistScreen(state: ArtistUiState,  stateFavorite: FavoriteArtistUiState ,retryAction: () -> Unit, addFavorite : (artistId: Long) -> Unit) {
 
     when (state) {
         is ArtistUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is ArtistUiState.Success -> ArtistDetail(artist = state.artist, isFavorite = stateFavorite.isFavorite, textFavorite = stateFavorite.text, stateFavorite = stateFavorite, addFavorite = addFavorite, )
+        is ArtistUiState.Success -> ArtistDetail(artist = state.artist, stateFavorite = stateFavorite, addFavorite = addFavorite, )
         is ArtistUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
 
 @Composable
-fun ArtistDetail(artist: Artist, isFavorite: Boolean ,textFavorite: Int, stateFavorite: FavoriteArtistUiState , addFavorite : (artist:Artist) -> Unit, modifier: Modifier = Modifier) {
+fun ArtistDetail(artist: Artist,  stateFavorite: FavoriteArtistUiState , addFavorite : (artistId: Long) -> Unit, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
     Column(
         modifier = modifier
@@ -77,7 +78,7 @@ fun ArtistDetail(artist: Artist, isFavorite: Boolean ,textFavorite: Int, stateFa
             ) {
                 Column {
                     Row(){
-                        if(isFavorite){
+                        if(stateFavorite.isFavorite){
                             Icon(Icons.Filled.Favorite,
                                 contentDescription = "Favorito")
                         }
@@ -128,20 +129,22 @@ fun ArtistDetail(artist: Artist, isFavorite: Boolean ,textFavorite: Int, stateFa
     }
     Box(modifier = Modifier.fillMaxSize()) {
         ExtendedFloatingActionButton(
-            onClick = { addFavorite(artist) },
+            onClick = { addFavorite(artist.id)},
             modifier = Modifier
                 .padding(all = 8.dp) // add margin
-                .align(alignment = Alignment.CenterEnd),
-            icon = { Icon(if(isFavorite){
+                .align(alignment = Alignment.CenterEnd)
+                .testTag("favorite"),
+            icon = { Icon(if(stateFavorite.isFavorite){
                 Icons.Filled.FavoriteBorder
             }else{
                 Icons.Filled.Favorite},"Agregar a favoritos.") },
-            text = { Text(text = (if(isFavorite){
+            text = { Text(text = (if(stateFavorite.isFavorite){
                 stringResource(R.string.quitar)
             }else{
                 stringResource(R.string.agregar)}) ) }
         )
     }
+
 }
 
 @Preview

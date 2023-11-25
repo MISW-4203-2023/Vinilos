@@ -2,20 +2,16 @@ package com.team3.vinilos.model.repository
 
 import android.util.Log
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import com.team3.proto.FavoritePreferences
-import com.team3.vinilos.model.models.Artist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 class FavoritePreferencesRepository(
     private val favoritePreferencesStore: DataStore<FavoritePreferences>
 ){
     private companion object {
-        val FAVORITE_MODE = booleanPreferencesKey("show_completed")
         const val TAG = "FavoritePreferencesRepo"
     }
 
@@ -30,14 +26,7 @@ class FavoritePreferencesRepository(
             }
         }
 
-    suspend fun updateFavorite(completed: Boolean) {
-        favoritePreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setShowFavorites(completed).build()
-        }
-    }
-
-    suspend fun agregarArtistaFavorito(artist: Artist) {
-        val artistId = artist.id.toInt()
+    suspend fun agregarArtistaFavorito(artistId: Int) {
         var artistFound = false
 
         favoritePreferencesStore.data.firstOrNull()?.let { preferences ->
@@ -55,7 +44,6 @@ class FavoritePreferencesRepository(
         if (!artistFound) {
             val newArtist = FavoritePreferences.Artist.newBuilder()
                 .setId(artistId)
-                .setName(artist.name)
                 .build()
 
             favoritePreferencesStore.updateData { preferences ->
