@@ -1,5 +1,6 @@
 package com.team3.vinilos.view.screens
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -149,13 +150,15 @@ fun CollectorDetail(
                 titles.forEachIndexed { index, title ->
                     Tab(
                         selected = state == index,
-                        onClick = { state = index },
+                        onClick = { state = index},
                         text = {
                             Text(
                                 text = title,
+                                modifier = modifier.testTag("${title}"),
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis
-                            )
+
+                                )
                         }
                     )
                 }
@@ -166,16 +169,21 @@ fun CollectorDetail(
                 albums.album?.let {
                     AlbumListItem(
                         album = it,
-                        goToAlbum = { goToAlbum(albums.album.id) })
+                        goToAlbum = { goToAlbum(albums.album.id) },
+                        modifier = modifier.testTag("collector_album_name"),
+                    )
+
                 }
             }
 
             1 -> items(collector.favoritePerformers.orEmpty()) { performer ->
-                ArtistListItem(artist = performer, goToArtist = goToArtist)
+                ArtistListItem(artist = performer, goToArtist = goToArtist, modifier = modifier.testTag("collector_artist"),
+                )
             }
 
             2 -> items(collector.comments.orEmpty()) { comment ->
-                CommentCard(comment = comment, goToAlbum = goToAlbum)
+                CommentCard(comment = comment, goToAlbum = goToAlbum, modifier = modifier.testTag("collector_comment"),
+                )
             }
 
             else -> {}
