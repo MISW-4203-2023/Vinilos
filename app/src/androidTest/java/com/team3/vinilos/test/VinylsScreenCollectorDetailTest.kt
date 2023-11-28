@@ -161,7 +161,7 @@ class VinylsScreenCollectorDetailTest {
     }
 
     @Test
-    fun collectorDetailScreen_clickOnDetails_validateNTabs() {
+    fun collectorDetailScreen_clickOnDetails_validateTabs() {
         navigateToCollectorScreen()
         navController.assertCurrentRouteName(VinylsAppScreen.Collectors.name)
         when (collectorsViewModel.collectorsUiState) {
@@ -183,11 +183,9 @@ class VinylsScreenCollectorDetailTest {
 
                     composeTestRule.onNodeWithTag("Álbums", useUnmergedTree = true).performClick()
                     composeTestRule.onNodeWithTag("Álbums", useUnmergedTree = true).assertExists()
-                    Thread.sleep(1000)
 
                     composeTestRule.onNodeWithTag("Artistas Favoritos", useUnmergedTree = true).performClick()
                     composeTestRule.onNodeWithTag("Artistas Favoritos", useUnmergedTree = true).assertExists()
-                    Thread.sleep(1000)
 
                     composeTestRule.onNodeWithTag("Comentarios", useUnmergedTree = true).performClick()
                     composeTestRule.onNodeWithTag("Comentarios", useUnmergedTree = true).assertExists()
