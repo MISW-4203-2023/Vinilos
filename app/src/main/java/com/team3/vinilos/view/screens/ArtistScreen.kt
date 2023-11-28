@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -125,14 +126,15 @@ fun ArtistDetail(artist: Artist,  stateFavorite: FavoriteArtistUiState , addFavo
                     .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 24.dp)
             )
         }
-
+        Box(Modifier.fillMaxWidth()
+            .height(70.dp))
     }
     Box(modifier = Modifier.fillMaxSize()) {
         ExtendedFloatingActionButton(
             onClick = { addFavorite(artist.id)},
             modifier = Modifier
                 .padding(all = 8.dp)
-                .align(alignment = Alignment.CenterEnd)
+                .align(alignment = Alignment.BottomEnd)
                 .testTag("favorite"),
             icon = { Icon(if(stateFavorite.isFavorite){
                 Icons.Filled.FavoriteBorder
