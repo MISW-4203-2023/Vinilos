@@ -12,5 +12,5 @@ interface AlbumApiService {
     suspend fun getAlbum(@Path("id") id: Long): Album
 
     @POST("albums")
-    suspend fun  addAlbum(@Body album: CreateAlbum): CreateAlbum
+    suspend fun addAlbum(@Body album: CreateAlbum): Album
 }

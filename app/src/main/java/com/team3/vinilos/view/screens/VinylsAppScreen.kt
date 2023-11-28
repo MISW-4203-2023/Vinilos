@@ -1,5 +1,6 @@
 package com.team3.vinilos.view.screens
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -159,6 +160,7 @@ fun VinylsApp(
     } catch (_: IllegalArgumentException) {
     }
     var appUiState = appViewModel.uiState.collectAsState().value
+
     VinylsTheme(useDarkTheme = appUiState.isDarkMode) {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -240,7 +242,17 @@ fun VinylsApp(
                     composable(
                         route = "${VinylsAppScreen.Albums.name}/create"
                     ) {
-                        AlbumCreateScreen(albumAddViewModel,navigateUp = { navController.navigateUp() })
+                        albumAddViewModel.resetFields()
+                        AlbumCreateScreen(
+                            albumAddViewModel.uiState,
+                            addAlbum = albumAddViewModel::addAlbum,
+                            updateField = albumAddViewModel::updateField,
+                            onSuccess = {
+                                navController.navigateUp()
+                                albumsViewModel.getAlbums()
+                            },
+                            navigateUp = { navController.navigateUp() }
+                        )
                     }
                     composable(
                         route = "${VinylsAppScreen.Albums.name}/{albumId}",
