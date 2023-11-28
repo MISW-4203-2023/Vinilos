@@ -18,4 +18,6 @@
     <string name="go_to_collector">Ir a los coleccionistas</string>
     <string name="deactivate_dark_mode_message">Desactivar modo nocturno</string>
     <string name="activate_dark_mode_message">Activar Modo Nocturno</string>
+    <string name="agregar">Agregar</string>
+    <string name="quitar">Quitar</string>
 </resources>

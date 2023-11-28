@@ -52,7 +52,7 @@ fun ArtistsList(artistList: List<Artist>, goToDetail : (id:Long) ->  Unit, modif
 
 
 @Composable
-fun ArtistCard(artist: Artist, goToDetail : (id:Long) ->  Unit , modifier: Modifier = Modifier) {
+fun ArtistCard(artist: Artist, goToDetail : (id:Long) ->  Unit,  modifier: Modifier = Modifier) {
     ListItem(
         headlineContent = { Text(artist.name) },
         trailingContent = {

@@ -1,7 +1,9 @@
+import com.google.protobuf.gradle.*
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    id("com.google.protobuf")
 }
 
 android {
@@ -56,8 +58,27 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    protobuf {
+        protoc {
+            artifact = "com.google.protobuf:protoc:3.20.1"
+        }
+        generateProtoTasks {
+            all().forEach { task ->
+                task.builtins {
+                    register("java") {
+                        option("lite")
+                    }
+                    register("kotlin") {
+                        option("lite")
+                    }
+                }
+            }
+        }
+    }
+
 
 }
+
 
 dependencies {
 
@@ -90,6 +111,10 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    testImplementation("io.mockk:mockk:1.12.4")
+    testImplementation("org.mockito:mockito-core:4.0.0")
+    testImplementation("org.mockito:mockito-inline:4.0.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 
@@ -102,5 +127,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
+
+    implementation("androidx.datastore:datastore:1.0.0")
+    implementation("com.google.protobuf:protobuf-javalite:3.21.5")
+    implementation("com.google.protobuf:protobuf-kotlin-lite:3.23.4")
 
 }
