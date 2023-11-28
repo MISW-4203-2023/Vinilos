@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -34,13 +33,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.team3.vinilos.R
-import com.team3.vinilos.model.Datasource
 import com.team3.vinilos.model.models.Artist
 import com.team3.vinilos.viewModel.ArtistUiState
 import com.team3.vinilos.viewModel.FavoriteArtistUiState
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.reflect.KFunction1
 
 @Composable
 fun ArtistScreen(state: ArtistUiState,  stateFavorite: FavoriteArtistUiState ,retryAction: () -> Unit, addFavorite : (artistId: Long) -> Unit) {
