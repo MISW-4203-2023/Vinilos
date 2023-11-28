@@ -15,6 +15,7 @@ class FakeUiDataSource {
     companion object {
         private var allAlbums: List<Album> = mutableListOf()
         private var allArtists: List<Artist> = mutableListOf()
+        private var allCollectors: List<Collector> = mutableListOf()
         fun getAlbums(count: Int): List<Album> {
             if (allAlbums.isEmpty()) {
                 val faker = Faker()
@@ -81,70 +82,73 @@ class FakeUiDataSource {
 
         fun getCollectors(count: Int): List<Collector> {
             val faker = Faker()
-            val collectors = mutableListOf<Collector>()
-            val artists = mutableListOf<Artist>()
-            val comments = mutableListOf<Comment>()
-            val albums = mutableListOf<Album>()
-            val collectorAlbums = mutableListOf<CollectorAlbums>()
+            if (allCollectors.isEmpty()) {
+                val collectors = mutableListOf<Collector>()
+                val artists = mutableListOf<Artist>()
+                val comments = mutableListOf<Comment>()
+                val albums = mutableListOf<Album>()
+                val collectorAlbums = mutableListOf<CollectorAlbums>()
 
-            val musicGenres = listOf(
-                "Rock",
-                "Pop",
-                "Hip-hop",
-                "R&B",
-                "Jazz",
-                "Reggae",
-                "Metal",
-            )
-
-            val artist = Artist(
-                id = faker.idNumber.hashCode().toLong(),
-                name = faker.name.name(),
-                birthDate = Date.from(
-                    (faker.person.birthDate(30)).atStartOfDay(ZoneId.systemDefault())
-                        .toInstant()
-                ),
-                description = faker.lorem.supplemental(),
-                image = "https://picsum.photos/500/500/?random",
-            )
-            artists.add(artist)
-
-            val random = Random.Default
-            val randomGenre = musicGenres[random.nextInt(musicGenres.size)]
-            val album =Album(
-                id = faker.idNumber.hashCode().toLong(),
-                name = faker.name.name(),
-                genre = randomGenre,
-                releaseDate = Date.from(
-                    (faker.person.birthDate(30)).atStartOfDay(ZoneId.systemDefault())
-                        .toInstant()
+                val musicGenres = listOf(
+                    "Rock",
+                    "Pop",
+                    "Hip-hop",
+                    "R&B",
+                    "Jazz",
+                    "Reggae",
+                    "Metal",
                 )
-            )
-            albums.add(album)
 
-
-            val collectorAlbum = CollectorAlbums(
-                id = faker.idNumber.hashCode().toLong(),
-                price = faker.idNumber.hashCode().toLong(),
-                status = faker.name.name(),
-                album = album
-            )
-            collectorAlbums.add(collectorAlbum)
-
-
-            for (i in 1..count) {
-                val collector = Collector(
-                    id = i.toLong(),
+                val artist = Artist(
+                    id = faker.idNumber.hashCode().toLong(),
                     name = faker.name.name(),
-                    telephone = faker.phoneNumber.phoneNumber().toString(),
-                    email =  faker.toString(),
-                    comments = comments,
-                    favoritePerformers = artists,
-                    collectorAlbums = collectorAlbums
+                    birthDate = Date.from(
+                        (faker.person.birthDate(30)).atStartOfDay(ZoneId.systemDefault())
+                            .toInstant()
+                    ),
+                    description = faker.lorem.supplemental(),
+                    image = "https://picsum.photos/500/500/?random",
                 )
-                collectors.add(collector)
+                artists.add(artist)
+
+                val random = Random.Default
+                val randomGenre = musicGenres[random.nextInt(musicGenres.size)]
+                val album = Album(
+                    id = faker.idNumber.hashCode().toLong(),
+                    name = faker.name.name(),
+                    genre = randomGenre,
+                    releaseDate = Date.from(
+                        (faker.person.birthDate(30)).atStartOfDay(ZoneId.systemDefault())
+                            .toInstant()
+                    )
+                )
+                albums.add(album)
+
+
+                val collectorAlbum = CollectorAlbums(
+                    id = faker.idNumber.hashCode().toLong(),
+                    price = faker.idNumber.hashCode().toLong(),
+                    status = faker.name.name(),
+                    album = album
+                )
+                collectorAlbums.add(collectorAlbum)
+
+
+                for (i in 1..count) {
+                    val collector = Collector(
+                        id = i.toLong(),
+                        name = faker.name.name(),
+                        telephone = faker.phoneNumber.phoneNumber().toString(),
+                        email = faker.toString(),
+                        comments = comments,
+                        favoritePerformers = artists,
+                        collectorAlbums = collectorAlbums
+                    )
+                    collectors.add(collector)
+                }
+                allCollectors = collectors
             }
-            return collectors
+            return allCollectors
         }
         fun getCollector(c: Int, id: Int): Collector {
             return getCollectors(c)[id - 1]
