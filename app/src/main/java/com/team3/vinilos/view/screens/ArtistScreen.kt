@@ -131,13 +131,17 @@ fun ArtistDetail(artist: Artist,  stateFavorite: FavoriteArtistUiState , addFavo
         ExtendedFloatingActionButton(
             onClick = { addFavorite(artist.id)},
             modifier = Modifier
-                .padding(all = 8.dp) // add margin
+                .padding(all = 8.dp)
                 .align(alignment = Alignment.CenterEnd)
                 .testTag("favorite"),
             icon = { Icon(if(stateFavorite.isFavorite){
                 Icons.Filled.FavoriteBorder
             }else{
-                Icons.Filled.Favorite},"Agregar a favoritos.") },
+                Icons.Filled.Favorite},
+                if(stateFavorite.isFavorite){
+                    stringResource(R.string.quitar)
+                }else{
+                    stringResource(R.string.agregar)}) },
             text = { Text(text = (if(stateFavorite.isFavorite){
                 stringResource(R.string.quitar)
             }else{
