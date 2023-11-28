@@ -3,6 +3,9 @@ buildscript {
         set("lifecycle_version", "2.6.1")
         set("compose_version", "1.1.0")
     }
+    dependencies {
+        classpath("com.google.protobuf:protobuf-gradle-plugin:0.9.1")
+    }
 }
 plugins {
     id("com.android.application") version "8.0.2" apply false
