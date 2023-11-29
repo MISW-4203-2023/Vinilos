@@ -1,22 +1,28 @@
 package com.team3.vinilos.view.screens
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -27,25 +33,25 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.team3.vinilos.R
-import com.team3.vinilos.model.Datasource
 import com.team3.vinilos.model.models.Artist
 import com.team3.vinilos.viewModel.ArtistUiState
+import com.team3.vinilos.viewModel.FavoriteArtistUiState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun ArtistScreen(state: ArtistUiState, retryAction: () -> Unit) {
+fun ArtistScreen(state: ArtistUiState,  stateFavorite: FavoriteArtistUiState ,retryAction: () -> Unit, addFavorite : (artistId: Long) -> Unit) {
 
     when (state) {
         is ArtistUiState.Loading -> LoadingScreen()
-        is ArtistUiState.Success -> ArtistDetail(artist = state.artist)
+        is ArtistUiState.Success -> ArtistDetail(artist = state.artist, stateFavorite = stateFavorite, addFavorite = addFavorite, )
         is ArtistUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
 
 @Composable
-fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
+fun ArtistDetail(artist: Artist,  stateFavorite: FavoriteArtistUiState , addFavorite : (artistId: Long) -> Unit, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
     Column(
         modifier = modifier
@@ -69,11 +75,17 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text(
-                        text = artist.name,
-                        modifier = modifier.testTag("artist_name"),
-                        style = MaterialTheme.typography.headlineSmall
-                    )
+                    Row(){
+                        if(stateFavorite.isFavorite){
+                            Icon(Icons.Filled.Favorite,
+                                contentDescription = "Favorito")
+                        }
+                        Text(
+                            text = artist.name,
+                            modifier = modifier.testTag("artist_name"),
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+                    }
                 }
             }
 
@@ -111,7 +123,29 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
                     .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 24.dp)
             )
         }
-
+        Box(Modifier.fillMaxWidth()
+            .height(70.dp))
+    }
+    Box(modifier = Modifier.fillMaxSize()) {
+        ExtendedFloatingActionButton(
+            onClick = { addFavorite(artist.id)},
+            modifier = Modifier
+                .padding(all = 8.dp)
+                .align(alignment = Alignment.BottomEnd)
+                .testTag("favorite"),
+            icon = { Icon(if(stateFavorite.isFavorite){
+                Icons.Filled.FavoriteBorder
+            }else{
+                Icons.Filled.Favorite},
+                if(stateFavorite.isFavorite){
+                    stringResource(R.string.quitar)
+                }else{
+                    stringResource(R.string.agregar)}) },
+            text = { Text(text = (if(stateFavorite.isFavorite){
+                stringResource(R.string.quitar)
+            }else{
+                stringResource(R.string.agregar)}) ) }
+        )
     }
 
 }
@@ -119,7 +153,6 @@ fun ArtistDetail(artist: Artist, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun ArtistPreview() {
-    ArtistDetail(Datasource().getArtist())
 }
 
 

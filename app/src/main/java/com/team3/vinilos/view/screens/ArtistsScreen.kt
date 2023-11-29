@@ -53,7 +53,42 @@ fun ArtistsList(
 ) {
     LazyColumn(modifier = modifier.testTag("artist_list")) {
         items(artistList) { artist ->
-            ArtistListItem(artist = artist, goToArtist = goToDetail)
+            ArtistCard(artist = artist, goToDetail = goToDetail)
+            Divider()
         }
     }
+}
+
+
+@Composable
+fun ArtistCard(artist: Artist, goToDetail : (id:Long) ->  Unit,  modifier: Modifier = Modifier) {
+    ListItem(
+        headlineContent = { Text(artist.name) },
+        trailingContent = {
+            IconButton(onClick = { goToDetail(artist.id) }, modifier = modifier.testTag("btn ${artist.name}")) {
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = stringResource(
+                        R.string.go_to_artist
+                    )
+                )
+            }
+        },
+        leadingContent = {
+            Box(
+                modifier = Modifier
+                    .size(35.dp)
+                    .clip(CircleShape)
+                    .background(md_theme_dark_onPrimary),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = artist.name.first().uppercase(),
+                    color = md_theme_dark_primary,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        },
+        modifier = modifier.padding(4.dp, 8.dp)
+    )
 }

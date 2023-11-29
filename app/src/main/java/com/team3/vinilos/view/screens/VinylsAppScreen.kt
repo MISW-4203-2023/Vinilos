@@ -42,6 +42,7 @@ import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsViewModel
 import com.team3.vinilos.viewModel.CollectorViewModel
 import com.team3.vinilos.viewModel.CollectorsViewModel
+import com.team3.vinilos.viewModel.FavoriteViewModel
 
 enum class VinylsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),
@@ -148,7 +149,8 @@ fun VinylsApp(
     albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.Factory),
     collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory),
     collectorViewModel: CollectorViewModel = viewModel(factory = CollectorViewModel.Factory),
-    appViewModel: AppViewModel = viewModel(factory = AppViewModel.Factory)
+    appViewModel: AppViewModel = viewModel(factory = AppViewModel.Factory),
+    favoriteViewModel: FavoriteViewModel = viewModel(factory = FavoriteViewModel.Factory)
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
@@ -159,6 +161,7 @@ fun VinylsApp(
     } catch (_: IllegalArgumentException) {
     }
     var appUiState = appViewModel.uiState.collectAsState().value
+    var favoriteUiSte = favoriteViewModel.favoriteUiState.collectAsState().value
     VinylsTheme(useDarkTheme = appUiState.isDarkMode) {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -199,7 +202,8 @@ fun VinylsApp(
                         ArtistsScreen(
                             artistsViewModel.artistUiState,
                             retryAction = artistsViewModel::getArtists,
-                            goToDetail = { navController.navigate("${VinylsAppScreen.Artists.name}/$it") }
+                            goToDetail = { navController.navigate("${VinylsAppScreen.Artists.name}/$it")
+                            }
                         )
                     }
                     composable(
@@ -210,14 +214,17 @@ fun VinylsApp(
                         artistId?.let {
                             LaunchedEffect(artistId) {
                                 artistViewModel.getArtist(it)
+                                favoriteViewModel.isFavoriteArtist(it)
                             }
                             ArtistScreen(
                                 artistViewModel.artistUiState,
+                                favoriteUiSte,
                                 retryAction = {
                                     artistViewModel.getArtist(
                                         id = it
                                     )
-                                }
+                                },
+                                addFavorite = favoriteViewModel::agregarArtistaFavorito
                             )
                         }
 
