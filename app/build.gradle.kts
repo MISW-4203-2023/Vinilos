@@ -1,3 +1,4 @@
+
 import com.google.protobuf.gradle.*
 plugins {
     id("com.android.application")
@@ -39,6 +40,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -98,6 +100,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    implementation("commons-validator:commons-validator:1.7")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
@@ -105,7 +108,6 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     implementation("io.github.serpro69:kotlin-faker:1.15.0")
-
 
     implementation("io.coil-kt:coil-compose:2.4.0")
 
@@ -128,6 +130,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
 
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore:1.0.0")
     implementation("com.google.protobuf:protobuf-javalite:3.21.5")
     implementation("com.google.protobuf:protobuf-kotlin-lite:3.23.4")

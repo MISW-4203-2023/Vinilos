@@ -1,5 +1,6 @@
 package com.team3.vinilos.view.screens
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -34,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.team3.vinilos.R
 import com.team3.vinilos.view.theme.VinylsTheme
+import com.team3.vinilos.viewModel.AlbumAddViewModel
 import com.team3.vinilos.viewModel.AlbumViewModel
 import com.team3.vinilos.viewModel.AlbumsViewModel
 import com.team3.vinilos.viewModel.AppUiState
@@ -148,6 +150,7 @@ fun VinylsApp(
     artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.Factory),
     albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.Factory),
     collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory),
+    albumAddViewModel: AlbumAddViewModel = viewModel(factory = AlbumAddViewModel.Factory),
     collectorViewModel: CollectorViewModel = viewModel(factory = CollectorViewModel.Factory),
     appViewModel: AppViewModel = viewModel(factory = AppViewModel.Factory),
     favoriteViewModel: FavoriteViewModel = viewModel(factory = FavoriteViewModel.Factory)
@@ -240,7 +243,23 @@ fun VinylsApp(
                         AlbumsScreen(
                             albumsViewModel.albumsUiState,
                             retryAction = albumsViewModel::getAlbums,
-                            goToDetail = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") }
+                            goToDetail = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") },
+                            goToCreate = { navController.navigate("${VinylsAppScreen.Albums.name}/create") }
+                        )
+                    }
+                    composable(
+                        route = "${VinylsAppScreen.Albums.name}/create"
+                    ) {
+                        albumAddViewModel.resetFields()
+                        AlbumCreateScreen(
+                            albumAddViewModel.uiState,
+                            addAlbum = albumAddViewModel::addAlbum,
+                            updateField = albumAddViewModel::updateField,
+                            onSuccess = {
+                                navController.navigateUp()
+                                albumsViewModel.getAlbums()
+                            },
+                            navigateUp = { navController.navigateUp() }
                         )
                     }
                     composable(

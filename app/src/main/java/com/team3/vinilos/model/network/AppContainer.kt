@@ -3,6 +3,7 @@ package com.team3.vinilos.model.network
 import kotlinx.serialization.json.Json
 import retrofit2.Retrofit
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.team3.vinilos.model.repository.AlbumAddRepository
 import com.team3.vinilos.model.repository.AlbumRepository
 import com.team3.vinilos.model.repository.AlbumsRepository
 import com.team3.vinilos.model.repository.ArtistRepository
@@ -10,6 +11,7 @@ import com.team3.vinilos.model.repository.ArtistsRepository
 import com.team3.vinilos.model.repository.CollectorRepository
 import com.team3.vinilos.model.repository.NetworkAlbumRepository
 import com.team3.vinilos.model.repository.CollectorsRepository
+import com.team3.vinilos.model.repository.NetworkAlbumAddRepository
 import com.team3.vinilos.model.repository.NetworkAlbumsRepository
 import com.team3.vinilos.model.repository.NetworkArtistRepository
 import com.team3.vinilos.model.repository.NetworkArtistsRepository
@@ -18,7 +20,7 @@ import com.team3.vinilos.model.repository.NetworkCollectorRepository
 import okhttp3.MediaType.Companion.toMediaType
 
 interface AppContainer {
-
+    val albumAddRepository: AlbumAddRepository
     val albumsRepository: AlbumsRepository
     val artistsRepository: ArtistsRepository
     val artistRepository: ArtistRepository
@@ -46,6 +48,14 @@ class DefaultAppContainer : AppContainer {
 
     override val albumsRepository: AlbumsRepository by lazy {
         NetworkAlbumsRepository(albumsRetrofitService)
+    }
+
+    private val albumAddRetrofitService: AlbumApiService by lazy {
+        retrofit.create(AlbumApiService::class.java)
+    }
+
+    override val albumAddRepository: AlbumAddRepository by lazy {
+        NetworkAlbumAddRepository(albumAddRetrofitService)
     }
 
     //Artist
