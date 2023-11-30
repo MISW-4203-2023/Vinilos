@@ -1,5 +1,6 @@
 package com.team3.vinilos.test
 
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -68,13 +69,12 @@ class VinylsScreenAddFavoriteArtistTest {
                     composeTestRule.onNodeWithTag("btn $artistName")
                         .performClick()
                     composeTestRule.onNodeWithTag("favorite").assertExists()
-
-
+                    Log.d("Quitar:",composeTestRule.onNodeWithTag("favorite").toString())
                     composeTestRule.onNodeWithTag("favorite")
                         .performClick()
-
-                    composeTestRule.onNodeWithContentDescription(textQuitar)
-                        .assertExists()
+                    composeTestRule.onNodeWithContentDescription(textQuitar).assertExists()
+                    composeTestRule.onNodeWithTag("favorite")
+                        .performClick()
 
             }
 

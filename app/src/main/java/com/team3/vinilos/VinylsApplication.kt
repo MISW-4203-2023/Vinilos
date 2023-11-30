@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.LocaleList
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.team3.proto.FavoritePreferences

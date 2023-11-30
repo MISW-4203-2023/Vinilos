@@ -7,4 +7,5 @@ data class CollectorAlbums (
     val id:Long,
     val price:Long,
     val status:String? = null,
+    val album: Album? = null
 )

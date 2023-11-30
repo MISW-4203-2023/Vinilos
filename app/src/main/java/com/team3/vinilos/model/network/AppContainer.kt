@@ -8,6 +8,7 @@ import com.team3.vinilos.model.repository.AlbumRepository
 import com.team3.vinilos.model.repository.AlbumsRepository
 import com.team3.vinilos.model.repository.ArtistRepository
 import com.team3.vinilos.model.repository.ArtistsRepository
+import com.team3.vinilos.model.repository.CollectorRepository
 import com.team3.vinilos.model.repository.NetworkAlbumRepository
 import com.team3.vinilos.model.repository.CollectorsRepository
 import com.team3.vinilos.model.repository.NetworkAlbumAddRepository
@@ -15,6 +16,7 @@ import com.team3.vinilos.model.repository.NetworkAlbumsRepository
 import com.team3.vinilos.model.repository.NetworkArtistRepository
 import com.team3.vinilos.model.repository.NetworkArtistsRepository
 import com.team3.vinilos.model.repository.NetworkCollectorsRepository
+import com.team3.vinilos.model.repository.NetworkCollectorRepository
 import okhttp3.MediaType.Companion.toMediaType
 
 interface AppContainer {
@@ -24,6 +26,7 @@ interface AppContainer {
     val artistRepository: ArtistRepository
     val albumRepository: AlbumRepository
     val collectorsRepository: CollectorsRepository
+    val collectorRepository: CollectorRepository
 }
 
 class DefaultAppContainer : AppContainer {
@@ -88,5 +91,13 @@ class DefaultAppContainer : AppContainer {
 
     override val collectorsRepository: CollectorsRepository by lazy {
         NetworkCollectorsRepository(collectorsRetrofitService)
+    }
+
+    private val collectorRetrofitService: CollectorApiService by lazy{
+        retrofit.create(CollectorApiService::class.java)
+    }
+
+    override val collectorRepository: CollectorRepository by lazy {
+        NetworkCollectorRepository(collectorRetrofitService)
     }
 }
