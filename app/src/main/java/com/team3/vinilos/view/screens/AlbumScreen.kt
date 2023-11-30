@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -35,7 +36,7 @@ import java.util.Locale
 fun AlbumScreen(state: AlbumUiState, retryAction: () -> Unit) {
 
     when (state) {
-        is AlbumUiState.Loading -> Text(text = stringResource(R.string.loading_title))
+        is AlbumUiState.Loading -> LoadingScreen()
         is AlbumUiState.Success -> AlbumDetail(album = state.album)
         is AlbumUiState.Error -> ErrorScreen(retryAction)
     }

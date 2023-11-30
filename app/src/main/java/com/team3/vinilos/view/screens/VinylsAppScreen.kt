@@ -40,6 +40,7 @@ import com.team3.vinilos.viewModel.AppUiState
 import com.team3.vinilos.viewModel.AppViewModel
 import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsViewModel
+import com.team3.vinilos.viewModel.CollectorViewModel
 import com.team3.vinilos.viewModel.CollectorsViewModel
 import com.team3.vinilos.viewModel.FavoriteViewModel
 
@@ -147,6 +148,7 @@ fun VinylsApp(
     artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.Factory),
     albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.Factory),
     collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory),
+    collectorViewModel: CollectorViewModel = viewModel(factory = CollectorViewModel.Factory),
     appViewModel: AppViewModel = viewModel(factory = AppViewModel.Factory),
     favoriteViewModel: FavoriteViewModel = viewModel(factory = FavoriteViewModel.Factory)
 ) {
@@ -263,8 +265,30 @@ fun VinylsApp(
                     composable(route = VinylsAppScreen.Collectors.name) {
                         CollectorsScreen(
                             collectorsViewModel.collectorsUiState,
-                            retryAction = collectorsViewModel::getCollectors
+                            retryAction = collectorsViewModel::getCollectors,
+                            goToDetail = { navController.navigate("${VinylsAppScreen.Collectors.name}/$it") }
                         )
+                    }
+                    composable(
+                        route = "${VinylsAppScreen.Collectors.name}/{collectorId}",
+                        arguments = listOf(navArgument("collectorId") { type = NavType.LongType })
+                    ) {
+                        val collectorId = it.arguments?.getLong("collectorId")
+                        collectorId?.let {
+                            LaunchedEffect(collectorId) {
+                                collectorViewModel.getCollector(it)
+                            }
+                            CollectorScreen(
+                                collectorViewModel.collectorUiState,
+                                retryAction = {
+                                    collectorViewModel.getCollector(
+                                        id = it
+                                    )
+                                },
+                                goToArtist = { navController.navigate("${VinylsAppScreen.Artists.name}/$it") },
+                                goToAlbum = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") }
+                            )
+                        }
                     }
                 }
             }

@@ -43,7 +43,7 @@ import java.util.Locale
 fun ArtistScreen(state: ArtistUiState,  stateFavorite: FavoriteArtistUiState ,retryAction: () -> Unit, addFavorite : (artistId: Long) -> Unit) {
 
     when (state) {
-        is ArtistUiState.Loading -> Text(text = stringResource(R.string.loading_title))
+        is ArtistUiState.Loading -> LoadingScreen()
         is ArtistUiState.Success -> ArtistDetail(artist = state.artist, stateFavorite = stateFavorite, addFavorite = addFavorite, )
         is ArtistUiState.Error -> ErrorScreen(retryAction)
     }

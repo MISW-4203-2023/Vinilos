@@ -9,6 +9,6 @@ data class Collector(
     val telephone: String? = null,
     val email: String? = null,
     val comments: List<Comment>? = null,
-    val favoritePerformers: List<Performer>? = null,
+    val favoritePerformers: List<Artist>? = null,
     val collectorAlbums: List<CollectorAlbums>? = null
 )

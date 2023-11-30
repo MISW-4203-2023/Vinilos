@@ -7,13 +7,9 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
-import com.team3.vinilos.test.fake.FakeFailNetworkAlbumsRepository
-import com.team3.vinilos.test.fake.FakeFailNetworkArtistRepository
-import com.team3.vinilos.test.fake.FakeFailNetworkCollectorRepository
+import com.team3.vinilos.test.fake.FakeFailNetworkCollectorsRepository
 import com.team3.vinilos.view.screens.VinylsApp
 import com.team3.vinilos.view.screens.VinylsAppScreen
-import com.team3.vinilos.viewModel.AlbumsViewModel
-import com.team3.vinilos.viewModel.ArtistsViewModel
 import com.team3.vinilos.viewModel.CollectorsUiState
 import com.team3.vinilos.viewModel.CollectorsViewModel
 import org.junit.Before
@@ -26,8 +22,6 @@ class VinylsScreenCollectorsNetworkFailTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private lateinit var navController: TestNavHostController
-    private lateinit var albumsViewModel: AlbumsViewModel
-    private lateinit var artistsViewModel: ArtistsViewModel
     private lateinit var collectorsViewModel: CollectorsViewModel
 
     @Before
@@ -36,19 +30,11 @@ class VinylsScreenCollectorsNetworkFailTest {
             navController = TestNavHostController(LocalContext.current).apply {
                 navigatorProvider.addNavigator(ComposeNavigator())
             }
-            albumsViewModel = AlbumsViewModel(
-                albumsRepository = FakeFailNetworkAlbumsRepository()
-            )
-            artistsViewModel = ArtistsViewModel(
-                artistsRepository = FakeFailNetworkArtistRepository()
-            )
             collectorsViewModel = CollectorsViewModel(
-                collectorsRepository = FakeFailNetworkCollectorRepository()
+                collectorsRepository = FakeFailNetworkCollectorsRepository()
             )
             VinylsApp(
                 navController = navController,
-                albumsViewModel = albumsViewModel,
-                artistsViewModel = artistsViewModel,
                 collectorsViewModel = collectorsViewModel
             )
         }
