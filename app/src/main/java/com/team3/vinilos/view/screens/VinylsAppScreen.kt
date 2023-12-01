@@ -48,9 +48,9 @@ import com.team3.vinilos.viewModel.FavoriteViewModel
 
 enum class VinylsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),
-    Artists(title = R.string.artists_title),
-    Albums(title = R.string.albums_title),
-    Collectors(title = R.string.collectors_title)
+    Artists(title = R.string.artists_title_list),
+    Albums(title = R.string.albums_title_list),
+    Collectors(title = R.string.collectors_title_list)
 }
 
 @Composable
@@ -109,7 +109,7 @@ fun VinylsNavBar(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.album_24),
-                    contentDescription = stringResource(R.string.albums_title)
+                    contentDescription = stringResource(R.string.go_to_albums)
                 )
             },
             label = { Text(stringResource(R.string.albums_title)) },
@@ -120,7 +120,7 @@ fun VinylsNavBar(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.piano_24),
-                    contentDescription = stringResource(R.string.artists_title)
+                    contentDescription = stringResource(R.string.go_to_artists)
                 )
             },
             label = { Text(stringResource(R.string.artists_title)) },
@@ -131,7 +131,7 @@ fun VinylsNavBar(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.headphones_24),
-                    contentDescription = stringResource(R.string.collectors_title)
+                    contentDescription = stringResource(R.string.go_to_collects)
                 )
             },
             label = { Text(stringResource(R.string.collectors_title)) },

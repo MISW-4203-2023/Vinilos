@@ -137,10 +137,11 @@ fun ArtistDetail(artist: Artist,  stateFavorite: FavoriteArtistUiState , addFavo
                 Icons.Filled.FavoriteBorder
             }else{
                 Icons.Filled.Favorite},
+                contentDescription =
                 if(stateFavorite.isFavorite){
-                    stringResource(R.string.quitar)
+                   "Quitar de favoritos a ${artist.name}"
                 }else{
-                    stringResource(R.string.agregar)}) },
+                    "Agregar como favorito a ${artist.name}"}) },
             text = { Text(text = (if(stateFavorite.isFavorite){
                 stringResource(R.string.quitar)
             }else{

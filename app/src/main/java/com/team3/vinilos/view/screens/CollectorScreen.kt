@@ -101,7 +101,7 @@ fun CollectorDetail(
                 Row(modifier = modifier.padding(horizontal = 16.dp)) {
                     Icon(
                         painter = painterResource(id = R.drawable.call24),
-                        contentDescription = "Teléfono",
+                        contentDescription = "Número de teléfono ${collector.telephone}",
                         modifier = modifier
                             .size(32.dp)
                             .padding(end = 8.dp)
@@ -125,7 +125,7 @@ fun CollectorDetail(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.mail24),
-                        contentDescription = "Correo Electrónico",
+                        contentDescription = "Correo Electrónico ${collector.email}",
                         modifier = modifier
                             .size(32.dp)
                             .padding(end = 8.dp)

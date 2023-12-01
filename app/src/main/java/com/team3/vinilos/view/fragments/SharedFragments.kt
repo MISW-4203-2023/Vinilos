@@ -40,12 +40,12 @@ fun RoundedLetter(letter: String) {
         modifier = Modifier
             .size(35.dp)
             .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.primary),
+            .background(md_theme_dark_onPrimary),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = letter.uppercase(),
-            color = MaterialTheme.colorScheme.inversePrimary,
+            color = md_theme_dark_primary,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
@@ -67,9 +67,7 @@ fun ArtistListItem(
             ) {
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowRight,
-                    contentDescription = stringResource(
-                        R.string.go_to_artist
-                    )
+                    contentDescription = "Ir a artista ${artist.name}"
                 )
             }
         },
@@ -93,9 +91,7 @@ fun AlbumListItem(album: Album, goToAlbum: (id: Long) -> Unit, modifier: Modifie
             ) {
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowRight,
-                    contentDescription = stringResource(
-                        R.string.go_to_album
-                    )
+                    contentDescription = "Ir a álbum ${album.name}"
                 )
             }
         },
@@ -136,7 +132,7 @@ fun CommentCard(comment: Comment, goToAlbum: (id: Long) -> Unit, modifier: Modif
                     Icon(
                         modifier = Modifier.size(24.dp),
                         painter = painterResource(R.drawable.star),
-                        contentDescription = "estrella",
+                        contentDescription = "Estrella ${it}",
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -144,7 +140,7 @@ fun CommentCard(comment: Comment, goToAlbum: (id: Long) -> Unit, modifier: Modif
                     Icon(
                         modifier = Modifier.size(24.dp),
                         painter = painterResource(R.drawable.star),
-                        contentDescription = "estrella",
+                        contentDescription = "Estrella ${it}",
                         tint = MaterialTheme.colorScheme.inversePrimary
                     )
                 }
