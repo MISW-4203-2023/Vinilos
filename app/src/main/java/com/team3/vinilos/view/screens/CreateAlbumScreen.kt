@@ -38,7 +38,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -90,10 +92,10 @@ fun AlbumCreate(
             .padding(16.dp)
     ) {
         Text(
-            text = "Crear Album",
+            text = stringResource(R.string.crear_album),
+            modifier = modifier.padding(bottom = 16.dp).testTag("crear_album_titulo"),
             style = MaterialTheme.typography.headlineMedium,
-            modifier = modifier.padding(bottom = 16.dp)
-        )
+            )
 
         OutlinedTextField(
             value = state.createAlbum.name ?: "",
@@ -101,7 +103,7 @@ fun AlbumCreate(
                 updateField(state.createAlbum.copy(name = it))
             },
             singleLine = true,
-            label = { Text("Nombre") },
+            label = { Text(text = stringResource(R.string.nombre),modifier = modifier.testTag("nombreAlbum"),) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
@@ -120,7 +122,7 @@ fun AlbumCreate(
             onValueChange = {
                 updateField(state.createAlbum.copy(cover = it))
             },
-            singleLine = true, label = { Text("Portada") },
+            singleLine = true, label = { Text(stringResource(R.string.portada)) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
@@ -140,13 +142,12 @@ fun AlbumCreate(
             ErrorMessage("La portada debe ser una url válida.")
         }
 
-        // Record Label Selection
         Column(
             modifier = Modifier
                 .selectableGroup()
         ) {
             Text(
-                "Sello discográfico:",
+                text = stringResource(R.string.sello),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -184,7 +185,7 @@ fun AlbumCreate(
             onValueChange = {
                 updateField(state.createAlbum.copy(description = it))
             },
-            label = { Text("Descripción") },
+            label = { Text(stringResource(R.string.descripcion)) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
@@ -211,7 +212,7 @@ fun AlbumCreate(
                 .selectableGroup()
         ) {
             Text(
-                "Género Musical:",
+                stringResource(R.string.genero_musical),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -252,14 +253,15 @@ fun AlbumCreate(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 OutlinedButton(onClick = navigateUp) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancelar))
                 }
                 Button(onClick = {
                     addAlbum {
                         onSuccess()
                     }
-                }) {
-                    Text("Guardar")
+                }
+                ) {
+                    Text("Guardar", modifier = modifier.testTag("guardarAlbum"))
                 }
             }
         } else {
@@ -326,7 +328,7 @@ fun CustomDatePicker(hasSent: Boolean, onValueChange: (Date) -> Unit) {
                 TextButton(onClick = {
                     showDatePicker = false
                 }) {
-                    Text(text = "Cancelar")
+                    Text(text = stringResource(R.string.cancelar))
                 }
             }
         ) {
@@ -382,6 +384,6 @@ fun ErrorMessage(message: String) {
         textAlign = TextAlign.End,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 12.dp)
+            .padding(bottom = 12.dp).testTag("errorAlbumMessage")
     )
 }

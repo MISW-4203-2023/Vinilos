@@ -54,7 +54,6 @@ class VinylsScreenAddFavoriteArtistTest {
 
     @Test
     fun add_favorite_artist() {
-        val textQuitar = composeTestRule.activity.getString(R.string.quitar)
         navigateToArtistScreen()
         navController.assertCurrentRouteName(VinylsAppScreen.Artists.name)
         when (artistsViewModel.artistUiState) {
@@ -62,6 +61,7 @@ class VinylsScreenAddFavoriteArtistTest {
                 val artists = (artistsViewModel.artistUiState as ArtistsUiState.Success).artists
                     val i = 1
                     val artistName = artists[i].name
+                    val textQuitar = "Quitar de favoritos a ${artistName}"
 
                     composeTestRule.onNodeWithTag("artist_list")
                         .performScrollToIndex(i)
@@ -69,10 +69,12 @@ class VinylsScreenAddFavoriteArtistTest {
                     composeTestRule.onNodeWithTag("btn $artistName")
                         .performClick()
                     composeTestRule.onNodeWithTag("favorite").assertExists()
-                    Log.d("Quitar:",composeTestRule.onNodeWithTag("favorite").toString())
+
                     composeTestRule.onNodeWithTag("favorite")
                         .performClick()
+
                     composeTestRule.onNodeWithContentDescription(textQuitar).assertExists()
+
                     composeTestRule.onNodeWithTag("favorite")
                         .performClick()
 
@@ -90,7 +92,6 @@ class VinylsScreenAddFavoriteArtistTest {
 
     @Test
     fun remove_favorite_artist() {
-        val textAgregar = composeTestRule.activity.getString(R.string.agregar)
         navigateToArtistScreen()
         navController.assertCurrentRouteName(VinylsAppScreen.Artists.name)
         when (artistsViewModel.artistUiState) {
@@ -98,6 +99,7 @@ class VinylsScreenAddFavoriteArtistTest {
                 val artists = (artistsViewModel.artistUiState as ArtistsUiState.Success).artists
                 val i = 2
                 val artistName = artists[i].name
+                val textAgregar = "Agregar como favorito a ${artistName}"
 
                 composeTestRule.onNodeWithTag("btn $artistName")
                     .performClick()

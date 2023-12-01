@@ -90,8 +90,8 @@ fun AlbumsList(
         }
         ExtendedFloatingActionButton(
             onClick = goToCreate,
-            icon = { Icon(Icons.Filled.Add, contentDescription = "Agregar nuevo álbum") },
-            text = { Text(text = "Agregar") },
+            icon = { Icon(Icons.Filled.Add, contentDescription = "Agregar nuevo álbum", modifier.testTag("agregarAlbum")) },
+            text = { Text(text = stringResource(R.string.agregar)) },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(8.dp)
