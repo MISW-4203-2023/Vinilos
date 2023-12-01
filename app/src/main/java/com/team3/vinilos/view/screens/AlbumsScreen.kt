@@ -90,7 +90,7 @@ fun AlbumsList(
         }
         ExtendedFloatingActionButton(
             onClick = goToCreate,
-            icon = { Icon(Icons.Filled.Add, "Agregar") },
+            icon = { Icon(Icons.Filled.Add, contentDescription = "Agregar nuevo álbum") },
             text = { Text(text = "Agregar") },
             modifier = Modifier
                 .align(Alignment.BottomEnd)

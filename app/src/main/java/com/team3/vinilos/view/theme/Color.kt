@@ -32,7 +32,7 @@ val md_theme_light_surfaceTint = Color(0xFF6750A4)
 val md_theme_light_outlineVariant = Color(0xFFCAC4CF)
 val md_theme_light_scrim = Color(0xFF000000)
 
-val md_theme_dark_primary = Color(0xFFCFBCFF)
+val md_theme_dark_primary = Color(0xFFF9F6FF)
 val md_theme_dark_onPrimary = Color(0xFF381E72)
 val md_theme_dark_primaryContainer = Color(0xFF4F378A)
 val md_theme_dark_onPrimaryContainer = Color(0xFFE9DDFF)

@@ -79,9 +79,8 @@ fun CollectorCard(
             ) {
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowRight,
-                    contentDescription = stringResource(
-                        R.string.go_to_collector
-                    )
+                    contentDescription = "Ir a coleccionista ${collector.name}"
+
                 )
             }
         },
