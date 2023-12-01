@@ -26,4 +26,12 @@
     <string name="activate_dark_mode_message">Activar Modo Nocturno</string>
     <string name="agregar">Agregar</string>
     <string name="quitar">Quitar</string>
+    <string name="crear_album">Crear Album</string>
+    <string name="nombre">Nombre</string>
+    <string name="portada">Portada</string>
+    <string name="descripcion">Descripción</string>
+    <string name="genero_musical">Género Musical:</string>
+    <string name="sello">Sello discográfico:</string>
+    <string name="cancelar">Cancelar</string>
+
 </resources>
