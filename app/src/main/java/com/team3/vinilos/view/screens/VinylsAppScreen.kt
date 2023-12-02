@@ -1,5 +1,6 @@
 package com.team3.vinilos.view.screens
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -34,19 +35,22 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.team3.vinilos.R
 import com.team3.vinilos.view.theme.VinylsTheme
+import com.team3.vinilos.viewModel.AlbumAddViewModel
 import com.team3.vinilos.viewModel.AlbumViewModel
 import com.team3.vinilos.viewModel.AlbumsViewModel
 import com.team3.vinilos.viewModel.AppUiState
 import com.team3.vinilos.viewModel.AppViewModel
 import com.team3.vinilos.viewModel.ArtistViewModel
 import com.team3.vinilos.viewModel.ArtistsViewModel
+import com.team3.vinilos.viewModel.CollectorViewModel
 import com.team3.vinilos.viewModel.CollectorsViewModel
+import com.team3.vinilos.viewModel.FavoriteViewModel
 
 enum class VinylsAppScreen(@StringRes val title: Int) {
     Start(title = R.string.start_title),
-    Artists(title = R.string.artists_title),
-    Albums(title = R.string.albums_title),
-    Collectors(title = R.string.collectors_title)
+    Artists(title = R.string.artists_title_list),
+    Albums(title = R.string.albums_title_list),
+    Collectors(title = R.string.collectors_title_list)
 }
 
 @Composable
@@ -105,7 +109,7 @@ fun VinylsNavBar(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.album_24),
-                    contentDescription = stringResource(R.string.albums_title)
+                    contentDescription = stringResource(R.string.go_to_albums)
                 )
             },
             label = { Text(stringResource(R.string.albums_title)) },
@@ -116,7 +120,7 @@ fun VinylsNavBar(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.piano_24),
-                    contentDescription = stringResource(R.string.artists_title)
+                    contentDescription = stringResource(R.string.go_to_artists)
                 )
             },
             label = { Text(stringResource(R.string.artists_title)) },
@@ -127,7 +131,7 @@ fun VinylsNavBar(
             icon = {
                 Icon(
                     painterResource(id = R.drawable.headphones_24),
-                    contentDescription = stringResource(R.string.collectors_title)
+                    contentDescription = stringResource(R.string.go_to_collects)
                 )
             },
             label = { Text(stringResource(R.string.collectors_title)) },
@@ -146,7 +150,10 @@ fun VinylsApp(
     artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.Factory),
     albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.Factory),
     collectorsViewModel: CollectorsViewModel = viewModel(factory = CollectorsViewModel.Factory),
-    appViewModel: AppViewModel = viewModel(factory = AppViewModel.Factory)
+    albumAddViewModel: AlbumAddViewModel = viewModel(factory = AlbumAddViewModel.Factory),
+    collectorViewModel: CollectorViewModel = viewModel(factory = CollectorViewModel.Factory),
+    appViewModel: AppViewModel = viewModel(factory = AppViewModel.Factory),
+    favoriteViewModel: FavoriteViewModel = viewModel(factory = FavoriteViewModel.Factory)
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val activeRouteName = backStackEntry?.destination?.route ?: VinylsAppScreen.Start.name
@@ -157,6 +164,7 @@ fun VinylsApp(
     } catch (_: IllegalArgumentException) {
     }
     var appUiState = appViewModel.uiState.collectAsState().value
+    var favoriteUiSte = favoriteViewModel.favoriteUiState.collectAsState().value
     VinylsTheme(useDarkTheme = appUiState.isDarkMode) {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -197,7 +205,8 @@ fun VinylsApp(
                         ArtistsScreen(
                             artistsViewModel.artistUiState,
                             retryAction = artistsViewModel::getArtists,
-                            goToDetail = { navController.navigate("${VinylsAppScreen.Artists.name}/$it") }
+                            goToDetail = { navController.navigate("${VinylsAppScreen.Artists.name}/$it")
+                            }
                         )
                     }
                     composable(
@@ -208,14 +217,17 @@ fun VinylsApp(
                         artistId?.let {
                             LaunchedEffect(artistId) {
                                 artistViewModel.getArtist(it)
+                                favoriteViewModel.isFavoriteArtist(it)
                             }
                             ArtistScreen(
                                 artistViewModel.artistUiState,
+                                favoriteUiSte,
                                 retryAction = {
                                     artistViewModel.getArtist(
                                         id = it
                                     )
-                                }
+                                },
+                                addFavorite = favoriteViewModel::agregarArtistaFavorito
                             )
                         }
 
@@ -231,7 +243,23 @@ fun VinylsApp(
                         AlbumsScreen(
                             albumsViewModel.albumsUiState,
                             retryAction = albumsViewModel::getAlbums,
-                            goToDetail = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") }
+                            goToDetail = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") },
+                            goToCreate = { navController.navigate("${VinylsAppScreen.Albums.name}/create") }
+                        )
+                    }
+                    composable(
+                        route = "${VinylsAppScreen.Albums.name}/create"
+                    ) {
+                        albumAddViewModel.resetFields()
+                        AlbumCreateScreen(
+                            albumAddViewModel.uiState,
+                            addAlbum = albumAddViewModel::addAlbum,
+                            updateField = albumAddViewModel::updateField,
+                            onSuccess = {
+                                navController.navigateUp()
+                                albumsViewModel.getAlbums()
+                            },
+                            navigateUp = { navController.navigateUp() }
                         )
                     }
                     composable(
@@ -256,8 +284,30 @@ fun VinylsApp(
                     composable(route = VinylsAppScreen.Collectors.name) {
                         CollectorsScreen(
                             collectorsViewModel.collectorsUiState,
-                            retryAction = collectorsViewModel::getCollectors
+                            retryAction = collectorsViewModel::getCollectors,
+                            goToDetail = { navController.navigate("${VinylsAppScreen.Collectors.name}/$it") }
                         )
+                    }
+                    composable(
+                        route = "${VinylsAppScreen.Collectors.name}/{collectorId}",
+                        arguments = listOf(navArgument("collectorId") { type = NavType.LongType })
+                    ) {
+                        val collectorId = it.arguments?.getLong("collectorId")
+                        collectorId?.let {
+                            LaunchedEffect(collectorId) {
+                                collectorViewModel.getCollector(it)
+                            }
+                            CollectorScreen(
+                                collectorViewModel.collectorUiState,
+                                retryAction = {
+                                    collectorViewModel.getCollector(
+                                        id = it
+                                    )
+                                },
+                                goToArtist = { navController.navigate("${VinylsAppScreen.Artists.name}/$it") },
+                                goToAlbum = { navController.navigate("${VinylsAppScreen.Albums.name}/$it") }
+                            )
+                        }
                     }
                 }
             }

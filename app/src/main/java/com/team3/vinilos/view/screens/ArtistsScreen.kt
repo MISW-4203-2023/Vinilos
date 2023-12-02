@@ -25,23 +25,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.team3.vinilos.R
 import com.team3.vinilos.model.models.Artist
+import com.team3.vinilos.view.fragments.ArtistListItem
 import com.team3.vinilos.view.theme.md_theme_dark_onPrimary
 import com.team3.vinilos.view.theme.md_theme_dark_primary
 import com.team3.vinilos.viewModel.ArtistsUiState
 
 @Composable
-fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit, goToDetail : (id:Long) ->  Unit) {
+fun ArtistsScreen(state: ArtistsUiState, retryAction: () -> Unit, goToDetail: (id: Long) -> Unit) {
 
     when (state) {
-        is ArtistsUiState.Loading -> Text(text = stringResource(R.string.loading_title))
-        is ArtistsUiState.Success -> ArtistsList(artistList = state.artists, goToDetail = goToDetail)
+        is ArtistsUiState.Loading -> LoadingScreen()
+        is ArtistsUiState.Success -> ArtistsList(
+            artistList = state.artists,
+            goToDetail = goToDetail
+        )
+
         is ArtistsUiState.Error -> ErrorScreen(retryAction)
     }
 
 }
 
 @Composable
-fun ArtistsList(artistList: List<Artist>, goToDetail : (id:Long) ->  Unit, modifier: Modifier = Modifier) {
+fun ArtistsList(
+    artistList: List<Artist>,
+    goToDetail: (id: Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(modifier = modifier.testTag("artist_list")) {
         items(artistList) { artist ->
             ArtistCard(artist = artist, goToDetail = goToDetail)
@@ -52,15 +61,13 @@ fun ArtistsList(artistList: List<Artist>, goToDetail : (id:Long) ->  Unit, modif
 
 
 @Composable
-fun ArtistCard(artist: Artist, goToDetail : (id:Long) ->  Unit , modifier: Modifier = Modifier) {
+fun ArtistCard(artist: Artist, goToDetail : (id:Long) ->  Unit,  modifier: Modifier = Modifier) {
     ListItem(
         headlineContent = { Text(artist.name) },
         trailingContent = {
             IconButton(onClick = { goToDetail(artist.id) }, modifier = modifier.testTag("btn ${artist.name}")) {
                 Icon(
-                    imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = stringResource(
-                        R.string.go_to_artist
-                    )
+                    imageVector = Icons.Filled.KeyboardArrowRight,contentDescription = "Ir a artista ${artist.name}"
                 )
             }
         },

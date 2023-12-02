@@ -3,8 +3,14 @@
     <string name="start_title">Inicio</string>
     <string name="artists_title">Artistas</string>
     <string name="albums_title">Álbumes</string>
+    <string name="artists_title_list">Lista Artistas</string>
+    <string name="albums_title_list">Lista Álbumes</string>
+    <string name="go_to_artists">Ir a listado de artistas</string>
+    <string name="go_to_albums">Ir a listado de álbumes</string>
+    <string name="go_to_collects">Ir a listado de coleccionistas</string>
     <string name="back_button">Volver</string>
     <string name="collectors_title">Coleccionistas</string>
+    <string name="collectors_title_list">Lista Coleccionistas</string>
     <string name="login_title">Iniciar Sesión</string>
     <string name="as_text">como</string>
     <string name="guess_title">Visitantes</string>
@@ -12,10 +18,17 @@
     <string name="loading_title">Cargando...</string>
     <string name="error_title">Ha ocurrido un error...</string>
     <string name="error_retry">Reintentar</string>
-    <string name="go_to_artist">Ir a artista</string>
-    <string name="go_to_album">Ir al álbum</string>
     <string name="imagen_del_album">Imagen del álbum</string>
-    <string name="go_to_collector">Ir a los coleccionistas</string>
     <string name="deactivate_dark_mode_message">Desactivar modo nocturno</string>
     <string name="activate_dark_mode_message">Activar Modo Nocturno</string>
+    <string name="agregar">Agregar</string>
+    <string name="quitar">Quitar</string>
+    <string name="crear_album">Crear Album</string>
+    <string name="nombre">Nombre</string>
+    <string name="portada">Portada</string>
+    <string name="descripcion">Descripción</string>
+    <string name="genero_musical">Género Musical:</string>
+    <string name="sello">Sello discográfico:</string>
+    <string name="cancelar">Cancelar</string>
+
 </resources>

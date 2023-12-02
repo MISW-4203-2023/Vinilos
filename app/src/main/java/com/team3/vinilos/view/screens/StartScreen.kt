@@ -36,7 +36,7 @@ fun StartScreen(
             .verticalScroll(state)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo),
+            painter = painterResource(id = R.drawable.logo_fondo),
             contentDescription = "Logo",
             modifier = modifier.padding(bottom = 16.dp)
         )
