@@ -18,10 +18,7 @@
     <string name="loading_title">Cargando...</string>
     <string name="error_title">Ha ocurrido un error...</string>
     <string name="error_retry">Reintentar</string>
-    <string name="go_to_artist">Ir a artista</string>
-    <string name="go_to_album">Ir al álbum</string>
     <string name="imagen_del_album">Imagen del álbum</string>
-    <string name="go_to_collector">Volver a listado de coleccionistas</string>
     <string name="deactivate_dark_mode_message">Desactivar modo nocturno</string>
     <string name="activate_dark_mode_message">Activar Modo Nocturno</string>
     <string name="agregar">Agregar</string>
